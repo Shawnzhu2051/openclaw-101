@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发者工具箱 - OpenClaw 101</title>
+    <meta name="description" content="OpenClaw 开发者工具箱：配置文件生成器、命令行生成器、正则表达式测试、JSON 格式化">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        /* Tools Page Specific Styles */
+        .tools-hero {
+            padding: 140px 0 60px;
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+        
+        .tools-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 16px;
+        }
+        
+        .tools-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Tools Grid */
+        .tools-section {
+            padding: 60px 0;
+            background: var(--bg-primary);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .tool-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tool-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .tool-header h3 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .tool-header p {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin: 4px 0 0;
+        }
+        
+        .tool-body {
+            padding: 24px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: var(--transition-fast);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .checkbox-item:hover {
+            border-color: var(--border-color-light);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-item.checked {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Output Area */
+        .output-area {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 16px;
+            position: relative;
+        }
+        
+        .output-area pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .output-actions {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .icon-btn:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-elevated);
+            border-color: var(--border-color-light);
+        }
+        
+        .btn-danger {
+            background: var(--accent-danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ef4444;
+        }
+        
+        /* Regex Tester Specific */
+        .regex-input-group {
+            position: relative;
+        }
+        
+        .regex-flags {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .regex-flags label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            cursor: pointer;
+        }
+        
+        .regex-flags input {
+            width: auto;
+        }
+        
+        .match-result {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .match-result.success {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid var(--accent-success);
+            color: var(--accent-success);
+        }
+        
+        .match-result.error {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid var(--accent-danger);
+            color: var(--accent-danger);
+        }
+        
+        .match-result.info {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+        
+        .highlight-match {
+            background: rgba(99, 102, 241, 0.3);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        /* JSON Formatter */
+        .json-tree {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        
+        .json-key {
+            color: #9cdcfe;
+        }
+        
+        .json-string {
+            color: #ce9178;
+        }
+        
+        .json-number {
+            color: #b5cea8;
+        }
+        
+        .json-boolean {
+            color: #569cd6;
+        }
+        
+        .json-null {
+            color: #569cd6;
+        }
+        
+        .json-bracket {
+            color: #ffd700;
+        }
+        
+        .json-collapsible {
+            cursor: pointer;
+        }
+        
+        .json-collapsible::before {
+            content: '▼';
+            display: inline-block;
+            margin-right: 4px;
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+        
+        .json-collapsible.collapsed::before {
+            transform: rotate(-90deg);
+        }
+        
+        .json-collapsible.collapsed + .json-children {
+            display: none;
+        }
+        
+        .json-children {
+            padding-left: 20px;
+        }
+        
+        /* Command Generator */
+        .command-preview {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-secondary);
+            margin-top: 16px;
+            position: relative;
+        }
+        
+        .command-preview::before {
+            content: '$';
+            color: var(--text-tertiary);
+            margin-right: 8px;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .quick-action {
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .quick-action:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        /* Stats */
+        .tool-stats {
+            display: flex;
+            gap: 24px;
+            padding: 16px 24px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .tool-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .tool-stat strong {
+            color: var(--text-primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-stats {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#features" class="nav-link">功能特性</a>
+                <a href="index.html#learning-path" class="nav-link">7天学习</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="index.html#resources" class="nav-link">资源库</a>
+                <a href="compare.html" class="nav-link">工具对比</a>
+                <a href="tools.html" class="nav-link active">工具箱</a>
+                <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="ai-assistant.html" class="nav-link">AI 助手</a>
+                <a href="checkin.html" class="nav-link">每日打卡</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="tools-hero">
+        <div class="container">
+            <span class="section-badge">🛠️ 开发者工具</span>
+            <h1>OpenClaw 工具箱</h1>
+            <p>实用的开发工具集合，提升你的 OpenClaw 开发效率</p>
+        </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section class="tools-section">
+        <div class="container">
+            <div class="tools-grid">
+                <!-- Config Generator -->
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <div class="tool-icon">⚙️</div>
+                        <div>
+                            <h3>配置文件生成器</h3>
+                            <p>快速生成 OpenClaw 配置文件</p>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>项目名称</label>
+                                <input type="text" id="projectName" placeholder="my-openclaw-project" value="my-project">
+                            </div>
+                            <div class="form-group">
+                                <label>默认模型</label>
+                                <select id="defaultModel">
+                                    <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                                    <option value="gpt-4o">GPT-4o</option>
+                                    <option value="gpt-4o-mini">GPT-4o Mini</option>
+                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>启用功能</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item checked">
+                                    <input type="checkbox" checked data-config="memory">
+                                    <span>记忆系统</span>
+                                </label>
+                                <label class="checkbox-item checked">
+                                    <input type="checkbox" checked data-config="skills">
+                                    <span>技能系统</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" data-config="canvas">
+                                    <span>Canvas 画布</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" data-config="subagents">
+                                    <span>子代理</span>
+                                </label>
+                                <label class="checkbox-item checked">
+                                    <input type="checkbox" checked data-config="telegram">
+                                    <span>Telegram</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" data-config="discord">
+                                    <span>Discord</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="generateConfig()">生成配置</button>
+                            <button class="btn btn-secondary" onclick="copyConfig()">复制</button>
+                            <button class="btn btn-secondary" onclick="downloadConfig()">下载</button>
+                        </div>
+                        <div class="output-area">
+                            <div class="output-actions">
+                                <button class="icon-btn" onclick="copyConfig()" title="复制">📋</button>
+                            </div>
+                            <pre id="configOutput">点击"生成配置"按钮生成配置文件...</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Command Generator -->
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <div class="tool-icon">⌨️</div>
+                        <div>
+                            <h3>命令行生成器</h3>
+                            <p>生成常用的 OpenClaw CLI 命令</p>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group">
+                            <label>命令类型</label>
+                            <select id="commandType" onchange="updateCommandForm()">
+                                <option value="install">安装技能</option>
+                                <option value="create">创建项目</option>
+                                <option value="deploy">部署命令</option>
+                                <option value="skill">技能开发</option>
+                                <option value="gateway">Gateway 管理</option>
+                            </select>
+                        </div>
+                        <div id="commandForm">
+                            <div class="form-group">
+                                <label>技能名称</label>
+                                <input type="text" id="skillName" placeholder="@openclaw/web-search">
+                            </div>
+                        </div>
+                        <div class="quick-actions">
+                            <span class="quick-action" onclick="setCommand('install', '@openclaw/web-search')">安装搜索技能</span>
+                            <span class="quick-action" onclick="setCommand('install', '@openclaw/github')">安装 GitHub 技能</span>
+                            <span class="quick-action" onclick="setCommand('create', 'my-agent')">创建新项目</span>
+                            <span class="quick-action" onclick="setCommand('deploy', 'production')">生产部署</span>
+                        </div>
+                        <div class="command-preview" id="commandPreview">
+                            npx clawhub@latest install @openclaw/web-search
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="copyCommand()">复制命令</button>
+                            <button class="btn btn-secondary" onclick="executeCommand()">执行</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regex Tester -->
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <div class="tool-icon">🔍</div>
+                        <div>
+                            <h3>正则表达式测试</h3>
+                            <p>测试和调试正则表达式</p>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group">
+                            <label>正则表达式</label>
+                            <div class="regex-input-group">
+                                <input type="text" id="regexPattern" placeholder="输入正则表达式，如: \d+" value="\b\w+@\w+\.\w+\b">
+                                <div class="regex-flags">
+                                    <label><input type="checkbox" id="flagG" checked> g (全局)</label>
+                                    <label><input type="checkbox" id="flagI"> i (忽略大小写)</label>
+                                    <label><input type="checkbox" id="flagM"> m (多行)</label>
+                                    <label><input type="checkbox" id="flagS"> s (点匹配所有)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>测试文本</label>
+                            <textarea id="regexText" placeholder="输入要匹配的文本...">Contact us at support@example.com or sales@company.org</textarea>
+                        </div>
+                        
+                        <div class="quick-actions">
+                            <span class="quick-action" onclick="setRegex('email')">邮箱</span>
+                            <span class="quick-action" onclick="setRegex('url')">URL</span>
+                            <span class="quick-action" onclick="setRegex('phone')">手机号</span>
+                            <span class="quick-action" onclick="setRegex('ip')">IP 地址</span>
+                            <span class="quick-action" onclick="setRegex('date')">日期</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="testRegex()">测试匹配</button>
+                            <button class="btn btn-secondary" onclick="clearRegex()">清空</button>
+                        </div>
+                        <div id="regexResult"></div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <span>匹配数: <strong id="matchCount">0</strong></span>
+                        </div>
+                        <div class="tool-stat">
+                            <span>执行时间: <strong id="execTime">0ms</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JSON Formatter -->
+                <div class="tool-panel">
+                    <div class="tool-header">
+                        <div class="tool-icon">📋</div>
+                        <div>
+                            <h3>JSON 格式化</h3>
+                            <p>格式化、验证和压缩 JSON</p>
+                        </div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group">
+                            <label>输入 JSON</label>
+                            <textarea id="jsonInput" placeholder="粘贴 JSON 数据...">{"name": "OpenClaw", "version": "1.0", "features": ["memory", "skills", "canvas"], "config": {"model": "claude-3-5-sonnet", "timeout": 30000}}</textarea>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="formatJSON()">格式化</button>
+                            <button class="btn btn-secondary" onclick="minifyJSON()">压缩</button>
+                            <button class="btn btn-secondary" onclick="validateJSON()">验证</button>
+                            <button class="btn btn-secondary" onclick="copyJSON()">复制</button>
+                            <button class="btn btn-danger" onclick="clearJSON()">清空</button>
+                        </div>
+                        
+                        <div class="output-area" style="margin-top: 16px;">
+                            <div class="output-actions">
+                                <button class="icon-btn" onclick="copyJSON()" title="复制">📋</button>
+                                <button class="icon-btn" onclick="expandAllJSON()" title="展开全部">📂</button>
+                                <button class="icon-btn" onclick="collapseAllJSON()" title="折叠全部">📁</button>
+                            </div>
+                            <pre id="jsonOutput"></pre>
+                        </div>
+                    </div>
+                    <div class="tool-stats">
+                        <div class="tool-stat">
+                            <span>大小: <strong id="jsonSize">0 B</strong></span>
+                        </div>
+                        <div class="tool-stat">
+                            <span>键数: <strong id="jsonKeys">0</strong></span>
+                        </div>
+                        <div class="tool-stat">
+                            <span>状态: <strong id="jsonStatus">等待输入</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo">🦞</span>
+                        <span>OpenClaw 101</span>
+                    </div>
+                    <p>开源免费的 OpenClaw 学习资源聚合站，助你 7 天掌握 AI 私人助理</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4>快速链接</h4>
+                    <a href="index.html">首页</a>
+                    <a href="skills-browser.html">技能市场</a>
+                    <a href="compare.html">工具对比</a>
+                    <a href="playground.html">在线体验</a>
+                </div>
+                <div class="footer-links-group">
+                    <h4>官方资源</h4>
+                    <a href="https://docs.openclaw.ai" target="_blank">官方文档</a>
+                    <a href="https://github.com/openclaw/openclaw" target="_blank">GitHub</a>
+                    <a href="https://clawhub.com" target="_blank">ClawHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 OpenClaw 101. 本站与 OpenClaw 官方无关，仅为社区学习资源聚合。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script>
+        // ==================== Config Generator ====================
+        function generateConfig() {
+            const projectName = document.getElementById('projectName').value || 'my-project';
+            const model = document.getElementById('defaultModel').value;
+            
+            const features = {};
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+                features[cb.dataset.config] = cb.checked;
+            });
+            
+            const config = {
+                name: projectName,
+                version: "1.0.0",
+                model: {
+                    provider: model.includes('claude') ? 'anthropic' : model.includes('gpt') ? 'openai' : 'google',
+                    model: model,
+                    temperature: 0.7,
+                    maxTokens: 4096
+                },
+                features: {
+                    memory: features.memory,
+                    skills: features.skills,
+                    canvas: features.canvas,
+                    subagents: features.subagents
+                },
+                integrations: {
+                    telegram: features.telegram ? { enabled: true } : { enabled: false },
+                    discord: features.discord ? { enabled: true } : { enabled: false }
+                },
+                security: {
+                    allowShell: false,
+                    allowedSkills: [],
+                    blockedSkills: []
+                }
+            };
+            
+            document.getElementById('configOutput').textContent = JSON.stringify(config, null, 2);
+        }
+        
+        function copyConfig() {
+            const config = document.getElementById('configOutput').textContent;
+            navigator.clipboard.writeText(config).then(() => {
+                showToast('配置已复制到剪贴板');
+            });
+        }
+        
+        function downloadConfig() {
+            const config = document.getElementById('configOutput').textContent;
+            const blob = new Blob([config], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'openclaw.config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Checkbox styling
+        document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                this.closest('.checkbox-item').classList.toggle('checked', this.checked);
+            });
+        });
+        
+        // ==================== Command Generator ====================
+        const commandTemplates = {
+            install: (name) => `npx clawhub@latest install ${name || '@openclaw/web-search'}`,
+            create: (name) => `npx create-openclaw@latest ${name || 'my-agent'}`,
+            deploy: (env) => `openclaw deploy --env ${env || 'production'}`,
+            skill: (name) => `npx clawhub@latest create-skill ${name || 'my-skill'}`,
+            gateway: (action) => `openclaw gateway:${action || 'start'}`
+        };
+        
+        function updateCommandForm() {
+            const type = document.getElementById('commandType').value;
+            const form = document.getElementById('commandForm');
+            
+            const labels = {
+                install: '技能名称',
+                create: '项目名称',
+                deploy: '环境',
+                skill: '技能名称',
+                gateway: '操作'
+            };
+            
+            const placeholders = {
+                install: '@openclaw/web-search',
+                create: 'my-agent',
+                deploy: 'production',
+                skill: 'my-skill',
+                gateway: 'start/stop/restart'
+            };
+            
+            form.innerHTML = `
+                <div class="form-group">
+                    <label>${labels[type]}</label>
+                    <input type="text" id="commandParam" placeholder="${placeholders[type]}" oninput="updateCommandPreview()">
+                </div>
+            `;
+            
+            updateCommandPreview();
+        }
+        
+        function updateCommandPreview() {
+            const type = document.getElementById('commandType').value;
+            const param = document.getElementById('commandParam')?.value || '';
+            
+            const command = commandTemplates[type](param);
+            document.getElementById('commandPreview').textContent = command;
+        }
+        
+        function setCommand(type, param) {
+            document.getElementById('commandType').value = type;
+            updateCommandForm();
+            document.getElementById('commandParam').value = param;
+            updateCommandPreview();
+        }
+        
+        function copyCommand() {
+            const command = document.getElementById('commandPreview').textContent.trim();
+            navigator.clipboard.writeText(command).then(() => {
+                showToast('命令已复制到剪贴板');
+            });
+        }
+        
+        function executeCommand() {
+            const command = document.getElementById('commandPreview').textContent.trim();
+            showToast(`执行命令: ${command}`);
+            // In a real app, this would execute the command
+        }
+        
+        // ==================== Regex Tester ====================
+        const regexPresets = {
+            email: { pattern: '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b', flags: 'g' },
+            url: { pattern: 'https?://[^\\s]+', flags: 'gi' },
+            phone: { pattern: '1[3-9]\\d{9}', flags: 'g' },
+            ip: { pattern: '\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b', flags: 'g' },
+            date: { pattern: '\\d{4}-\\d{2}-\\d{2}', flags: 'g' }
+        };
+        
+        function setRegex(type) {
+            const preset = regexPresets[type];
+            document.getElementById('regexPattern').value = preset.pattern;
+            document.getElementById('flagG').checked = preset.flags.includes('g');
+            document.getElementById('flagI').checked = preset.flags.includes('i');
+            document.getElementById('flagM').checked = preset.flags.includes('m');
+            testRegex();
+        }
+        
+        function testRegex() {
+            const pattern = document.getElementById('regexPattern').value;
+            const text = document.getElementById('regexText').value;
+            const resultDiv = document.getElementById('regexResult');
+            
+            if (!pattern || !text) {
+                resultDiv.innerHTML = '';
+                document.getElementById('matchCount').textContent = '0';
+                return;
+            }
+            
+            const startTime = performance.now();
+            
+            try {
+                let flags = '';
+                if (document.getElementById('flagG').checked) flags += 'g';
+                if (document.getElementById('flagI').checked) flags += 'i';
+                if (document.getElementById('flagM').checked) flags += 'm';
+                if (document.getElementById('flagS').checked) flags += 's';
+                
+                const regex = new RegExp(pattern, flags);
+                const matches = [];
+                let match;
+                
+                if (flags.includes('g')) {
+                    while ((match = regex.exec(text)) !== null) {
+                        matches.push({
+                            text: match[0],
+                            index: match.index,
+                            groups: match.slice(1)
+                        });
+                        if (match.index === regex.lastIndex) regex.lastIndex++;
+                    }
+                } else {
+                    match = regex.exec(text);
+                    if (match) {
+                        matches.push({
+                            text: match[0],
+                            index: match.index,
+                            groups: match.slice(1)
+                        });
+                    }
+                }
+                
+                const execTime = (performance.now() - startTime).toFixed(2);
+                document.getElementById('execTime').textContent = execTime + 'ms';
+                document.getElementById('matchCount').textContent = matches.length;
+                
+                if (matches.length === 0) {
+                    resultDiv.innerHTML = '<div class="match-result info">未找到匹配项</div>';
+                } else {
+                    let highlightedText = text;
+                    // Highlight matches in reverse order to preserve indices
+                    matches.reverse().forEach(m => {
+                        const before = highlightedText.slice(0, m.index);
+                        const after = highlightedText.slice(m.index + m.text.length);
+                        highlightedText = before + `<span class="highlight-match">${m.text}</span>` + after;
+                    });
+                    
+                    resultDiv.innerHTML = `
+                        <div class="match-result success">
+                            <div>找到 ${matches.length} 个匹配</div>
+                            <div style="margin-top: 8px; padding: 12px; background: var(--bg-primary); border-radius: var(--radius-sm);">${highlightedText}</div>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                resultDiv.innerHTML = `<div class="match-result error">正则表达式错误: ${e.message}</div>`;
+                document.getElementById('matchCount').textContent = '0';
+            }
+        }
+        
+        function clearRegex() {
+            document.getElementById('regexPattern').value = '';
+            document.getElementById('regexText').value = '';
+            document.getElementById('regexResult').innerHTML = '';
+            document.getElementById('matchCount').textContent = '0';
+        }
+        
+        // ==================== JSON Formatter ====================
+        function formatJSON() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('jsonOutput');
+            
+            if (!input.trim()) {
+                output.innerHTML = '';
+                updateJSONStats(null);
+                return;
+            }
+            
+            try {
+                const parsed = JSON.parse(input);
+                output.innerHTML = renderJSONTree(parsed);
+                updateJSONStats(parsed, true);
+            } catch (e) {
+                output.innerHTML = `<span style="color: var(--accent-danger)">JSON 解析错误: ${e.message}</span>`;
+                updateJSONStats(null, false);
+            }
+        }
+        
+        function minifyJSON() {
+            const input = document.getElementById('jsonInput').value;
+            
+            try {
+                const parsed = JSON.parse(input);
+                const minified = JSON.stringify(parsed);
+                document.getElementById('jsonOutput').textContent = minified;
+                updateJSONStats(parsed, true);
+            } catch (e) {
+                document.getElementById('jsonOutput').innerHTML = `<span style="color: var(--accent-danger)">错误: ${e.message}</span>`;
+                updateJSONStats(null, false);
+            }
+        }
+        
+        function validateJSON() {
+            const input = document.getElementById('jsonInput').value;
+            
+            try {
+                JSON.parse(input);
+                showToast('✓ JSON 格式有效');
+                document.getElementById('jsonStatus').textContent = '有效';
+                document.getElementById('jsonStatus').style.color = 'var(--accent-success)';
+            } catch (e) {
+                showToast('✗ JSON 格式无效: ' + e.message);
+                document.getElementById('jsonStatus').textContent = '无效';
+                document.getElementById('jsonStatus').style.color = 'var(--accent-danger)';
+            }
+        }
+        
+        function copyJSON() {
+            const output = document.getElementById('jsonOutput');
+            const text = output.textContent || output.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('已复制到剪贴板');
+            });
+        }
+        
+        function clearJSON() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('jsonOutput').innerHTML = '';
+            updateJSONStats(null);
+        }
+        
+        function renderJSONTree(obj, key = null) {
+            if (obj === null) return '<span class="json-null">null</span>';
+            if (typeof obj === 'boolean') return `<span class="json-boolean">${obj}</span>`;
+            if (typeof obj === 'number') return `<span class="json-number">${obj}</span>`;
+            if (typeof obj === 'string') return `<span class="json-string">"${escapeHtml(obj)}"</span>`;
+            
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) return '<span class="json-bracket">[]</span>';
+                
+                const items = obj.map((item, i) => {
+                    const rendered = renderJSONTree(item);
+                    return `<div>${rendered}${i < obj.length - 1 ? '<span class="json-bracket">,</span>' : ''}</div>`;
+                }).join('');
+                
+                return `
+                    <span class="json-collapsible">[</span>
+                    <div class="json-children">${items}</div>
+                    <span class="json-bracket">]</span>
+                `;
+            }
+            
+            const keys = Object.keys(obj);
+            if (keys.length === 0) return '<span class="json-bracket">{}</span>';
+            
+            const items = keys.map((k, i) => {
+                const rendered = renderJSONTree(obj[k], k);
+                return `<div><span class="json-key">"${k}"</span>: ${rendered}${i < keys.length - 1 ? '<span class="json-bracket">,</span>' : ''}</div>`;
+            }).join('');
+            
+            return `
+                <span class="json-collapsible">{</span>
+                <div class="json-children">${items}</div>
+                <span class="json-bracket">}</span>
+            `;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function updateJSONStats(obj, isValid) {
+            if (!obj) {
+                document.getElementById('jsonSize').textContent = '0 B';
+                document.getElementById('jsonKeys').textContent = '0';
+                document.getElementById('jsonStatus').textContent = '等待输入';
+                document.getElementById('jsonStatus').style.color = '';
+                return;
+            }
+            
+            const size = new Blob([JSON.stringify(obj)]).size;
+            document.getElementById('jsonSize').textContent = size < 1024 ? size + ' B' : (size / 1024).toFixed(2) + ' KB';
+            document.getElementById('jsonKeys').textContent = countKeys(obj);
+            document.getElementById('jsonStatus').textContent = isValid ? '有效' : '无效';
+            document.getElementById('jsonStatus').style.color = isValid ? 'var(--accent-success)' : 'var(--accent-danger)';
+        }
+        
+        function countKeys(obj) {
+            if (typeof obj !== 'object' || obj === null) return 0;
+            if (Array.isArray(obj)) return obj.reduce((sum, item) => sum + countKeys(item), 0);
+            return Object.keys(obj).reduce((sum, key) => sum + 1 + countKeys(obj[key]), 0);
+        }
+        
+        function expandAllJSON() {
+            document.querySelectorAll('.json-collapsible').forEach(el => {
+                el.classList.remove('collapsed');
+            });
+        }
+        
+        function collapseAllJSON() {
+            document.querySelectorAll('.json-collapsible').forEach(el => {
+                el.classList.add('collapsed');
+            });
+        }
+        
+        // Collapsible JSON
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('json-collapsible')) {
+                e.target.classList.toggle('collapsed');
+            }
+        });
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                padding: 16px 24px;
+                background: var(--bg-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                z-index: 9999;
+                animation: fadeInUp 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // Mobile Navigation
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Initialize
+        updateCommandForm();
+        formatJSON();
+    </script>
+    <script src="ai-assistant.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日打卡 - OpenClaw 101</title>
+    <meta name="description" content="OpenClaw 101 每日学习打卡，记录你的学习进度">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkin.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="index.html#learning-path" class="nav-link">学习路径</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="ai-assistant.html" class="nav-link">AI 助手</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题"></button>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="checkin-page">
+        <div class="container">
+            <div class="page-header">
+                <span class="section-badge">📅 每日打卡</span>
+                <h1 class="page-title">坚持学习，成就更好的自己</h1>
+                <p class="page-desc">记录每一天的学习进度，养成持续学习的习惯</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="streakCount">0</span>
+                        <span class="stat-label">连续打卡</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalDays">0</span>
+                        <span class="stat-label">累计天数</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalHours">0</span>
+                        <span class="stat-label">学习时长(小时)</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="badgeCount">0</span>
+                        <span class="stat-label">获得徽章</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkin-layout">
+                <!-- Left: Calendar -->
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" id="prevMonth"><</button>
+                        <span class="calendar-title" id="calendarTitle">2026年2月</span>
+                        <button class="calendar-nav" id="nextMonth">></button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-weekdays">
+                            <span>日</span>
+                            <span>一</span>
+                            <span>二</span>
+                            <span>三</span>
+                            <span>四</span>
+                            <span>五</span>
+                            <span>六</span>
+                        </div>
+                        <div class="calendar-days" id="calendarDays"></div>
+                    </div>
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot"></span>
+                            <span>已打卡</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot today"></span>
+                            <span>今天</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot future"></span>
+                            <span>未打卡</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Checkin Action & Badges -->
+                <div class="checkin-sidebar">
+                    <!-- Today's Checkin -->
+                    <div class="checkin-card" id="checkinCard">
+                        <div class="checkin-status" id="checkinStatus">
+                            <div class="status-icon">📝</div>
+                            <h3>今日未打卡</h3>
+                            <p>开始学习，记录今天的进步！</p>
+                        </div>
+                        
+                        <div class="checkin-form" id="checkinForm">
+                            <div class="form-group">
+                                <label>学习内容</label>
+                                <select id="learningContent">
+                                    <option value="">选择学习内容...</option>
+                                    <option value="day1">Day 1: 初识 OpenClaw</option>
+                                    <option value="day2">Day 2: 环境搭建</option>
+                                    <option value="day3">Day 3: 平台接入</option>
+                                    <option value="day4">Day 4: 技能探索</option>
+                                    <option value="day5">Day 5: 记忆与个性化</option>
+                                    <option value="day6">Day 6: 技能开发</option>
+                                    <option value="day7">Day 7: 进阶与生产</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>学习时长</label>
+                                <div class="duration-selector">
+                                    <button class="duration-btn" data-duration="15">15分</button>
+                                    <button class="duration-btn" data-duration="30">30分</button>
+                                    <button class="duration-btn active" data-duration="60">1小时</button>
+                                    <button class="duration-btn" data-duration="120">2小时</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>学习笔记（可选）</label>
+                                <textarea id="learningNote" placeholder="记录今天的学习心得..."></textarea>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-lg btn-checkin" id="checkinBtn">
+                                <span>✅</span>
+                                立即打卡
+                            </button>
+                        </div>
+                        
+                        <div class="checkin-success hidden" id="checkinSuccess">
+                            <div class="success-animation">
+                                <div class="success-circle">✓</div>
+                                <div class="success-confetti">🎉</div>
+                            </div>
+                            <h3>打卡成功！</h3>
+                            <p>继续保持，你是最棒的！</p>
+                            <div class="checkin-details" id="checkinDetails"></div>
+                        </div>
+                    </div>
+
+                    <!-- Study Timer -->
+                    <div class="timer-card">
+                        <div class="timer-header">
+                            <span class="timer-icon">⏱️</span>
+                            <span>学习计时器</span>
+                        </div>
+                        <div class="timer-display" id="timerDisplay">00:00:00</div>
+                        <div class="timer-controls">
+                            <button class="timer-btn start" id="timerStart">开始</button>
+                            <button class="timer-btn pause hidden" id="timerPause">暂停</button>
+                            <button class="timer-btn reset" id="timerReset">重置</button>
+                        </div>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="badges-section">
+                        <h3>🏆 成就徽章</h3>
+                        <div class="badges-grid" id="badgesGrid">
+                            <!-- Badges will be generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="history-section">
+                <h3>📖 打卡记录</h3>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be generated by JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 OpenClaw 101. 本站与 OpenClaw 官方无关，仅为社区学习资源聚合。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="checkin.js"></script>
+</body>
+</html>

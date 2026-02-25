@@ -421,6 +421,63 @@ let searchQuery = '';
 let displayedCount = 12;
 const LOAD_MORE_COUNT = 12;
 
+// Resource ratings (persisted in localStorage)
+let resourceRatings = {};
+let resourceViews = {};
+
+// Initialize ratings from localStorage
+function initRatings() {
+    try {
+        resourceRatings = JSON.parse(localStorage.getItem('openclaw_ratings') || '{}');
+        resourceViews = JSON.parse(localStorage.getItem('openclaw_views') || '{}');
+    } catch (e) {
+        resourceRatings = {};
+        resourceViews = {};
+    }
+}
+
+// Save ratings to localStorage
+function saveRatings() {
+    localStorage.setItem('openclaw_ratings', JSON.stringify(resourceRatings));
+    localStorage.setItem('openclaw_views', JSON.stringify(resourceViews));
+}
+
+// Rate a resource
+function rateResource(id, rating) {
+    if (!resourceRatings[id]) {
+        resourceRatings[id] = { sum: 0, count: 0 };
+    }
+    resourceRatings[id].sum += rating;
+    resourceRatings[id].count += 1;
+    saveRatings();
+    renderResources();
+    showToast(`已评分: ${rating} 星`);
+}
+
+// Get average rating for a resource
+function getAverageRating(id) {
+    const rating = resourceRatings[id];
+    if (!rating || rating.count === 0) return 0;
+    return (rating.sum / rating.count).toFixed(1);
+}
+
+// Track resource view
+function trackView(id) {
+    if (!resourceViews[id]) {
+        resourceViews[id] = 0;
+    }
+    resourceViews[id]++;
+    saveRatings();
+}
+
+// Get popular resources
+function getPopularResources(limit = 6) {
+    return resourcesData
+        .map(r => ({ ...r, views: resourceViews[r.id] || 0 }))
+        .sort((a, b) => b.views - a.views)
+        .slice(0, limit);
+}
+
 // DOM Elements
 const resourcesGrid = document.getElementById('resourcesGrid');
 const searchInput = document.getElementById('searchInput');
@@ -431,10 +488,13 @@ const toast = document.getElementById('toast');
 
 // Initialize
 function init() {
+    initRatings();
     renderResources();
     setupEventListeners();
     setupNavbar();
     setupBackToTop();
+    setupKeyboardShortcuts();
+    setupShareCards();
     
     // Initialize enhanced search if available
     if (window.SearchEnhanced) {
@@ -443,6 +503,9 @@ function init() {
     
     // Update stats
     updateResourceStats();
+    
+    // Show popular resources
+    showPopularResources();
 }
 
 // Update resource stats
@@ -457,6 +520,12 @@ function updateResourceStats() {
     const totalEl = document.querySelector('.r-number');
     if (totalEl) {
         totalEl.textContent = stats.total + '+';
+    }
+    
+    // Update hero stats
+    const heroStats = document.querySelector('.hero-badge .badge-text');
+    if (heroStats) {
+        heroStats.textContent = `✨ 开源免费 · 收录 ${stats.total}+ 篇教程资源`;
     }
 }
 
@@ -476,6 +545,11 @@ function renderResources() {
             加载更多 (${filtered.length - displayedCount} 剩余)
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
         `;
+    }
+    
+    // Highlight search terms if any
+    if (searchQuery) {
+        highlightSearchTerms(searchQuery);
     }
 }
 
@@ -509,20 +583,55 @@ function filterResources() {
 function createResourceCard(resource) {
     const isOfficial = resource.type === 'official';
     const favoriteBtn = window.FavoritesManager ? FavoritesManager.createFavoriteButton(resource.id) : '';
+    const avgRating = getAverageRating(resource.id);
+    const views = resourceViews[resource.id] || 0;
+    
+    // Create rating stars
+    let ratingStars = '';
+    if (avgRating > 0) {
+        const fullStars = Math.floor(avgRating);
+        const hasHalf = avgRating % 1 >= 0.5;
+        ratingStars = '<span class="rating-stars" title="平均评分: ' + avgRating + '">';
+        for (let i = 0; i < fullStars; i++) {
+            ratingStars += '★';
+        }
+        if (hasHalf) ratingStars += '½';
+        ratingStars += '<span class="rating-count">(' + avgRating + ')</span></span>';
+    }
+    
+    // Create share button
+    const shareBtn = `<button class="share-btn" onclick="shareResource(event, ${resource.id})" title="分享">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+        </svg>
+    </button>`;
+    
+    // Create rating selector
+    const ratingSelector = `<div class="rating-selector" onclick="event.preventDefault()">
+        ${[1,2,3,4,5].map(star => `
+            <span class="rating-star" onclick="rateResource(${resource.id}, ${star})" data-rating="${star}">★</span>
+        `).join('')}
+    </div>`;
     
     return `
-        <a href="${resource.url}" target="_blank" class="resource-card ${isOfficial ? 'official' : ''}" data-id="${resource.id}">
+        <a href="${resource.url}" target="_blank" class="resource-card ${isOfficial ? 'official' : ''}" data-id="${resource.id}" onclick="trackView(${resource.id})">
             ${favoriteBtn}
+            ${shareBtn}
             <div class="resource-meta">
                 <span class="lang">${resource.lang.toUpperCase()}</span>
                 <span class="type">${resource.category}</span>
+                ${views > 0 ? `<span class="views-count">👁 ${views}</span>` : ''}
             </div>
-            <h3>${resource.title}</h3>
-            <p>${resource.desc}</p>
+            <h3>${highlightText(resource.title, searchQuery)}</h3>
+            <p>${highlightText(resource.desc, searchQuery)}</p>
             <div class="resource-footer">
                 <span class="source">${resource.source}</span>
-                <span class="arrow">访问 ↗</span>
+                <div class="resource-actions">
+                    ${ratingStars}
+                    <span class="arrow">访问 ↗</span>
+                </div>
             </div>
+            ${ratingSelector}
         </a>
     `;
 }
@@ -3430,5 +3539,433 @@ const batch6Resources = [
 // Merge batch 6
 resourcesData.push(...batch6Resources);
 
+// ==================== NEW FEATURES ====================
+
+// Search Highlighting
+function highlightText(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+}
+
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightSearchTerms(query) {
+    if (!query) return;
+    // The highlighting is done during card creation now
+}
+
+// Show Popular Resources
+function showPopularResources() {
+    const container = document.getElementById('popularResources');
+    if (!container) return;
+    
+    const popular = getPopularResources(6);
+    if (popular.length === 0) return;
+    
+    container.innerHTML = popular.map(r => `
+        <a href="${r.url}" target="_blank" class="popular-resource" onclick="trackView(${r.id})">
+            <span class="popular-rank">#${popular.indexOf(r) + 1}</span>
+            <span class="popular-title">${r.title}</span>
+            <span class="popular-views">${r.views} 次浏览</span>
+        </a>
+    `).join('');
+}
+
+// Share Resource
+function shareResource(event, id) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const resource = resourcesData.find(r => r.id === id);
+    if (!resource) return;
+    
+    const shareData = {
+        title: resource.title,
+        text: resource.desc,
+        url: resource.url
+    };
+    
+    if (navigator.share) {
+        navigator.share(shareData);
+    } else {
+        // Fallback: copy to clipboard and show modal
+        const shareText = `${resource.title}\n${resource.desc}\n${resource.url}`;
+        navigator.clipboard.writeText(shareText).then(() => {
+            showShareModal(resource);
+        });
+    }
+}
+
+function showShareModal(resource) {
+    const modal = document.createElement('div');
+    modal.className = 'share-modal';
+    modal.innerHTML = `
+        <div class="share-modal-content">
+            <button class="share-modal-close" onclick="this.closest('.share-modal').remove()">×</button>
+            <h3>分享资源</h3>
+            <div class="share-card">
+                <div class="share-card-header">
+                    <span class="share-card-logo">🦞</span>
+                    <span>OpenClaw 101</span>
+                </div>
+                <div class="share-card-body">
+                    <h4>${resource.title}</h4>
+                    <p>${resource.desc}</p>
+                    <span class="share-card-source">${resource.source}</span>
+                </div>            </div>
+            <div class="share-options">
+                <button onclick="copyShareLink('${resource.url}')" class="btn btn-secondary">📋 复制链接</button>
+                <button onclick="shareToTwitter('${encodeURIComponent(resource.title)}', '${encodeURIComponent(resource.url)}')" class="btn btn-secondary">𝕏 分享到 Twitter</button>
+                <button onclick="shareToWeibo('${encodeURIComponent(resource.title)}', '${encodeURIComponent(resource.url)}')" class="btn btn-secondary">📱 分享到微博</button>
+            </div>
+            <p class="share-copied">链接已复制到剪贴板！</p>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
+
+function copyShareLink(url) {
+    navigator.clipboard.writeText(url);
+    showToast('链接已复制');
+}
+
+function shareToTwitter(text, url) {
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareToWeibo(text, url) {
+    window.open(`http://service.weibo.com/share/share.php?title=${text}&url=${url}`, '_blank');
+}
+
+// Keyboard Shortcuts
+function setupKeyboardShortcuts() {
+    let currentFocusIndex = -1;
+    const cards = () => document.querySelectorAll('.resource-card');
+    
+    document.addEventListener('keydown', (e) => {
+        // / to focus search
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') {
+            e.preventDefault();
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.select();
+            }
+        }
+        
+        // ESC to close modals and blur search
+        if (e.key === 'Escape') {
+            const modals = document.querySelectorAll('.share-modal, .search-suggestions');
+            modals.forEach(m => m.remove());
+            
+            if (document.activeElement === document.getElementById('searchInput')) {
+                document.getElementById('searchInput').blur();
+            }
+            
+            currentFocusIndex = -1;
+        }
+        
+        // Arrow keys for navigation
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            const cardElements = cards();
+            if (cardElements.length === 0) return;
+            
+            e.preventDefault();
+            
+            if (e.key === 'ArrowDown') {
+                currentFocusIndex = Math.min(currentFocusIndex + 1, cardElements.length - 1);
+            } else {
+                currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
+            }
+            
+            cardElements[currentFocusIndex]?.focus();
+            cardElements[currentFocusIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Enter to open focused card
+        if (e.key === 'Enter' && currentFocusIndex >= 0) {
+            const cardElements = cards();
+            if (cardElements[currentFocusIndex]) {
+                cardElements[currentFocusIndex].click();
+            }
+        }
+    });
+    
+    // Make cards focusable
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.setAttribute('tabindex', '0');
+        });
+    });
+}
+
+// Share Cards Setup
+function setupShareCards() {
+    // Add share card styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .search-highlight {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .resource-card {
+            position: relative;
+            outline: none;
+        }
+        
+        .resource-card:focus {
+            box-shadow: 0 0 0 2px var(--accent-primary);
+        }
+        
+        .share-btn {
+            position: absolute;
+            top: 12px;
+            right: 48px;
+            width: 28px;
+            height: 28px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            z-index: 10;
+        }
+        
+        .share-btn:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
+        .rating-stars {
+            color: var(--accent-warning);
+            font-size: 0.85rem;
+        }
+        
+        .rating-count {
+            color: var(--text-tertiary);
+            font-size: 0.75rem;
+            margin-left: 4px;
+        }
+        
+        .views-count {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-left: auto;
+        }
+        
+        .rating-selector {
+            display: none;
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 4px 8px;
+            gap: 4px;
+        }
+        
+        .resource-card:hover .rating-selector {
+            display: flex;
+        }
+        
+        .rating-star {
+            cursor: pointer;
+            color: var(--text-tertiary);
+            transition: var(--transition-fast);
+        }
+        
+        .rating-star:hover,
+        .rating-star:hover ~ .rating-star {
+            color: var(--accent-warning);
+        }
+        
+        .rating-star:hover {
+            transform: scale(1.2);
+        }
+        
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .share-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .share-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .share-card {
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-card));
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .share-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+        
+        .share-card-logo {
+            font-size: 1.25rem;
+        }
+        
+        .share-card-body h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        
+        .share-card-body p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .share-card-source {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+        
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .share-options button {
+            justify-content: center;
+        }
+        
+        .share-copied {
+            text-align: center;
+            color: var(--accent-success);
+            font-size: 0.85rem;
+            margin-top: 16px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Loading Animation */
+        .loading-skeleton {
+            background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Lazy loading images */
+        img[data-src] {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        img[data-src].loaded {
+            opacity: 1;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Lazy loading for images
+function setupLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.onload = () => img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    } else {
+        // Fallback
+        images.forEach(img => {
+            img.src = img.dataset.src;
+            img.onload = () => img.classList.add('loaded');
+        });
+    }
+}
+
+// Pagination with loading animation
+function loadMoreWithAnimation() {
+    const btn = document.getElementById('loadMoreBtn');
+    btn.innerHTML = '<span class="loading-spinner"></span> 加载中...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        displayedCount += LOAD_MORE_COUNT;
+        renderResources();
+        btn.disabled = false;
+    }, 300);
+}
+
 // Run init when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    setupLazyLoading();
+});

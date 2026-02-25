@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 工具对比 - OpenClaw 101</title>
+    <meta name="description" content="OpenClaw vs ChatGPT vs Claude vs 其他 AI 工具对比，功能对比表格，适用场景推荐">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        /* Compare Page Specific Styles */
+        .compare-hero {
+            padding: 140px 0 80px;
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+        
+        .compare-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 16px;
+        }
+        
+        .compare-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Tool Selector */
+        .tool-selector {
+            padding: 40px 0;
+            background: var(--bg-primary);
+        }
+        
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-color-light);
+        }
+        
+        .tool-card.selected {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), var(--bg-card));
+            box-shadow: var(--shadow-glow-sm);
+        }
+        
+        .tool-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .tool-icon.openclaw {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+        
+        .tool-icon.chatgpt {
+            background: linear-gradient(135deg, #10a37f, #0d8c6d);
+        }
+        
+        .tool-icon.claude {
+            background: linear-gradient(135deg, #d97757, #c46340);
+        }
+        
+        .tool-icon.gemini {
+            background: linear-gradient(135deg, #4285f4, #34a853, #fbbc04, #ea4335);
+        }
+        
+        .tool-icon.copilot {
+            background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
+        }
+        
+        .tool-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .tool-card p {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+        
+        .tool-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            margin: 12px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .tool-card.selected .tool-checkbox {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .tool-card.selected .tool-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* Comparison Table */
+        .comparison-section {
+            padding: 60px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .comparison-table th:first-child {
+            width: 200px;
+        }
+        
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+        
+        .comparison-table tr:hover td {
+            background: var(--bg-card-hover);
+        }
+        
+        .feature-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+        
+        .check-yes {
+            color: var(--accent-success);
+            font-weight: bold;
+        }
+        
+        .check-no {
+            color: var(--accent-danger);
+        }
+        
+        .check-partial {
+            color: var(--accent-warning);
+        }
+        
+        .rating-stars {
+            color: var(--accent-warning);
+        }
+        
+        /* Scenario Cards */
+        .scenarios-section {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+        
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .scenario-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: var(--transition-normal);
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-primary);
+        }
+        
+        .scenario-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        
+        .scenario-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .recommendation {
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .recommendation-label {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .recommendation-tool {
+            font-weight: 600;
+            color: var(--accent-primary-light);
+        }
+        
+        /* Interactive Comparison */
+        .interactive-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .feature-explorer {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+        }
+        
+        .feature-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+        
+        .feature-item {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-bottom: 8px;
+        }
+        
+        .feature-item:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .feature-item.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .feature-detail {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        
+        .feature-detail h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .feature-detail p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        
+        .tool-comparison-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .tool-compare-item {
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+        }
+        
+        .tool-compare-item h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tool-compare-item p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+        
+        /* Verdict Section */
+        .verdict-section {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+        
+        .verdict-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+        
+        .verdict-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        
+        .verdict-card.winner {
+            border-color: var(--accent-success);
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.05), var(--bg-card));
+        }
+        
+        .verdict-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .verdict-badge {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .verdict-badge.best {
+            background: var(--accent-success);
+            color: white;
+        }
+        
+        .verdict-badge.alternative {
+            background: var(--accent-secondary);
+            color: var(--bg-primary);
+        }
+        
+        .verdict-card h3 {
+            font-size: 1.5rem;
+        }
+        
+        .verdict-pros {
+            margin-top: 20px;
+        }
+        
+        .verdict-pros h4 {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .verdict-pros ul {
+            list-style: none;
+        }
+        
+        .verdict-pros li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .verdict-pros li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-success);
+            font-weight: bold;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .selector-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .scenarios-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .feature-explorer {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+            }
+            
+            .feature-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .selector-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .scenarios-grid,
+            .verdict-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-comparison-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#features" class="nav-link">功能特性</a>
+                <a href="index.html#learning-path" class="nav-link">7天学习</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="index.html#resources" class="nav-link">资源库</a>
+                <a href="compare.html" class="nav-link active">工具对比</a>
+                <a href="tools.html" class="nav-link">工具箱</a>
+                <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="ai-assistant.html" class="nav-link">AI 助手</a>
+                <a href="checkin.html" class="nav-link">每日打卡</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="compare-hero">
+        <div class="container">
+            <span class="section-badge">🔍 智能选择</span>
+            <h1>AI 工具对比</h1>
+            <p>选择最适合你的 AI 助手。我们对比了市面上主流的 AI 工具，帮助你做出明智的决策。</p>
+        </div>
+    </section>
+
+    <!-- Tool Selector -->
+    <section class="tool-selector">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 32px;">选择要对比的工具</h2>
+            <div class="selector-grid" id="toolSelector">
+                <div class="tool-card selected" data-tool="openclaw">
+                    <div class="tool-icon openclaw">🦞</div>
+                    <h3>OpenClaw</h3>
+                    <p>开源 AI Agent</p>
+                    <div class="tool-checkbox"></div>
+                </div>
+                <div class="tool-card selected" data-tool="chatgpt">
+                    <div class="tool-icon chatgpt">C</div>
+                    <h3>ChatGPT</h3>
+                    <p>OpenAI 聊天机器人</p>
+                    <div class="tool-checkbox"></div>
+                </div>
+                <div class="tool-card selected" data-tool="claude">
+                    <div class="tool-icon claude">♠</div>
+                    <h3>Claude</h3>
+                    <p>Anthropic AI 助手</p>
+                    <div class="tool-checkbox"></div>
+                </div>
+                <div class="tool-card" data-tool="gemini">
+                    <div class="tool-icon gemini">G</div>
+                    <h3>Gemini</h3>
+                    <p>Google AI 助手</p>
+                    <div class="tool-checkbox"></div>
+                </div>
+                <div class="tool-card" data-tool="copilot">
+                    <div class="tool-icon copilot">GH</div>
+                    <h3>GitHub Copilot</h3>
+                    <p>AI 编程助手</p>
+                    <div class="tool-checkbox"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">📊 详细对比</span>
+                <h2 class="section-title">功能对比表</h2>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table" id="comparisonTable">
+                    <thead>
+                        <tr>
+                            <th>功能特性</th>
+                            <th data-tool="openclaw">OpenClaw</th>
+                            <th data-tool="chatgpt">ChatGPT</th>
+                            <th data-tool="claude">Claude</th>
+                            <th data-tool="gemini">Gemini</th>
+                            <th data-tool="copilot">Copilot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="feature-name">开源免费</div>
+                                <div class="feature-desc">代码开源，可自由部署</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 完全开源</span></td>
+                            <td data-tool="chatgpt"><span class="check-no">✗ 闭源</span></td>
+                            <td data-tool="claude"><span class="check-no">✗ 闭源</span></td>
+                            <td data-tool="gemini"><span class="check-no">✗ 闭源</span></td>
+                            <td data-tool="copilot"><span class="check-partial">△ 部分开源</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">本地部署</div>
+                                <div class="feature-desc">数据完全自主可控</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 支持</span></td>
+                            <td data-tool="chatgpt"><span class="check-no">✗ 不支持</span></td>
+                            <td data-tool="claude"><span class="check-no">✗ 不支持</span></td>
+                            <td data-tool="gemini"><span class="check-no">✗ 不支持</span></td>
+                            <td data-tool="copilot"><span class="check-no">✗ 不支持</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">自主 Agent</div>
+                                <div class="feature-desc">主动执行任务</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 核心功能</span></td>
+                            <td data-tool="chatgpt"><span class="check-partial">△ 有限支持</span></td>
+                            <td data-tool="claude"><span class="check-partial">△ 有限支持</span></td>
+                            <td data-tool="gemini"><span class="check-partial">△ 有限支持</span></td>
+                            <td data-tool="copilot"><span class="check-no">✗ 不支持</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">技能扩展</div>
+                                <div class="feature-desc">自定义功能插件</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 1700+ 技能</span></td>
+                            <td data-tool="chatgpt"><span class="check-partial">△ GPTs</span></td>
+                            <td data-tool="claude"><span class="check-no">✗ 不支持</span></td>
+                            <td data-tool="gemini"><span class="check-partial">△ 扩展</span></td>
+                            <td data-tool="copilot"><span class="check-partial">△ 扩展</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">多平台接入</div>
+                                <div class="feature-desc">Telegram、飞书等</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 10+ 平台</span></td>
+                            <td data-tool="chatgpt"><span class="check-no">✗ App  only</span></td>
+                            <td data-tool="claude"><span class="check-no">✗ Web/App</span></td>
+                            <td data-tool="gemini"><span class="check-no">✗ Web/App</span></td>
+                            <td data-tool="copilot"><span class="check-no">✗ IDE only</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">代码能力</div>
+                                <div class="feature-desc">编程辅助功能</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-partial">△ 中等</span></td>
+                            <td data-tool="chatgpt"><span class="check-yes">✓ 强</span></td>
+                            <td data-tool="claude"><span class="check-yes">✓ 很强</span></td>
+                            <td data-tool="gemini"><span class="check-yes">✓ 强</span></td>
+                            <td data-tool="copilot"><span class="check-yes">✓ 专业级</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">长上下文</div>
+                                <div class="feature-desc">处理长文档能力</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 200K+</span></td>
+                            <td data-tool="chatgpt"><span class="check-yes">✓ 128K</span></td>
+                            <td data-tool="claude"><span class="check-yes">✓ 200K</span></td>
+                            <td data-tool="gemini"><span class="check-yes">✓ 1M</span></td>
+                            <td data-tool="copilot"><span class="check-partial">△ 中等</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">隐私保护</div>
+                                <div class="feature-desc">数据安全性</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 完全私有</span></td>
+                            <td data-tool="chatgpt"><span class="check-partial">△ 企业版</span></td>
+                            <td data-tool="claude"><span class="check-partial">△ 企业版</span></td>
+                            <td data-tool="gemini"><span class="check-partial">△ 企业版</span></td>
+                            <td data-tool="copilot"><span class="check-partial">△ 企业版</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">成本</div>
+                                <div class="feature-desc">使用费用</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 仅服务器</span></td>
+                            <td data-tool="chatgpt"><span class="check-partial">△ $20/月</span></td>
+                            <td data-tool="claude"><span class="check-partial">△ $20/月</span></td>
+                            <td data-tool="gemini"><span class="check-yes">✓ 免费</span></td>
+                            <td data-tool="copilot"><span class="check-partial">△ $10/月</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="feature-name">社区生态</div>
+                                <div class="feature-desc">开发者社区活跃度</div>
+                            </td>
+                            <td data-tool="openclaw"><span class="check-yes">✓ 活跃</span></td>
+                            <td data-tool="chatgpt"><span class="check-yes">✓ 很大</span></td>
+                            <td data-tool="claude"><span class="check-partial">△ 中等</span></td>
+                            <td data-tool="gemini"><span class="check-partial">△ 中等</span></td>
+                            <td data-tool="copilot"><span class="check-yes">✓ 很大</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenarios Section -->
+    <section class="scenarios-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🎯 场景推荐</span>
+                <h2 class="section-title">适用场景推荐</h2>
+                <p class="section-desc">根据不同的使用场景，我们为你推荐最适合的工具</p>
+            </div>
+            <div class="scenarios-grid">
+                <div class="scenario-card">
+                    <div class="scenario-icon">🏠</div>
+                    <h3>个人 AI 助理</h3>
+                    <p>需要一个全天候在线的私人助理，帮你管理日程、回答问题、执行日常任务。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">🦞 OpenClaw - 完全自主，数据私有</div>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-icon">💻</div>
+                    <h3>编程开发</h3>
+                    <p>需要强大的代码补全、重构建议、代码审查和编程问题解答。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">GitHub Copilot + Claude - 专业编程</div>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-icon">📊</div>
+                    <h3>内容创作</h3>
+                    <p>写作辅助、文案生成、创意头脑风暴、长文档处理。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">Claude - 长文本处理能力强</div>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-icon">🏢</div>
+                    <h3>企业自动化</h3>
+                    <p>需要自动化业务流程、集成内部系统、处理重复性工作。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">🦞 OpenClaw - 可定制，数据安全</div>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-icon">🔬</div>
+                    <h3>学术研究</h3>
+                    <p>文献综述、论文写作、数据分析、复杂推理。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">Claude - 推理能力强，准确度高</div>
+                    </div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-icon">💬</div>
+                    <h3>日常问答</h3>
+                    <p>快速获取信息、学习新知识、 casual conversation。</p>
+                    <div class="recommendation">
+                        <div class="recommendation-label">推荐工具</div>
+                        <div class="recommendation-tool">ChatGPT / Gemini - 便捷易用</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Feature Explorer -->
+    <section class="interactive-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🎮 交互式对比</span>
+                <h2 class="section-title">功能深度对比</h2>
+                <p class="section-desc">点击左侧功能查看详细对比</p>
+            </div>
+            <div class="feature-explorer">
+                <div class="feature-list">
+                    <div class="feature-item active" data-feature="agent">自主 Agent 能力</div>
+                    <div class="feature-item" data-feature="privacy">隐私与数据控制</div>
+                    <div class="feature-item" data-feature="extensibility">扩展性</div>
+                    <div class="feature-item" data-feature="multimodal">多模态支持</div>
+                    <div class="feature-item" data-feature="integration">第三方集成</div>
+                    <div class="feature-item" data-feature="cost">成本效益</div>
+                </div>
+                <div class="feature-detail" id="featureDetail">
+                    <h3>自主 Agent 能力</h3>
+                    <p>自主 Agent 是 AI 的下一个进化阶段，不仅能回答问题，还能主动规划、执行复杂任务。OpenClaw 是目前唯一专为自主 Agent 设计的开源平台。</p>
+                    <div class="tool-comparison-row">
+                        <div class="tool-compare-item">
+                            <h4>🦞 OpenClaw</h4>
+                            <p>原生支持自主 Agent，可执行多步骤任务，调用工具，管理状态，是真正的数字助手。</p>
+                        </div>
+                        <div class="tool-compare-item">
+                            <h4>ChatGPT</h4>
+                            <p>通过 GPTs 和插件有限支持，但主要仍是响应式对话，缺乏真正的自主性。</p>
+                        </div>
+                        <div class="tool-compare-item">
+                            <h4>Claude</h4>
+                            <p>通过 Computer Use 功能支持部分 Agent 能力，但仍需用户确认每一步操作。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verdict Section -->
+    <section class="verdict-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🏆 最终建议</span>
+                <h2 class="section-title">选择建议</h2>
+            </div>
+            <div class="verdict-grid">
+                <div class="verdict-card winner">
+                    <div class="verdict-header">
+                        <span class="verdict-badge best">最佳选择</span>
+                        <h3>🦞 OpenClaw</h3>
+                    </div>
+                    <p>如果你重视<strong>数据隐私</strong>、需要<strong>自主 AI Agent</strong>、希望<strong>完全控制</strong>你的 AI 助手，OpenClaw 是不二之选。</p>
+                    <div class="verdict-pros">
+                        <h4>核心优势</h4>
+                        <ul>
+                            <li>完全开源，代码透明</li>
+                            <li>本地部署，数据自主</li>
+                            <li>真正的自主 Agent 能力</li>
+                            <li>丰富的技能生态系统</li>
+                            <li>多平台无缝接入</li>
+                            <li>无订阅费用，仅需服务器成本</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="verdict-card">
+                    <div class="verdict-header">
+                        <span class="verdict-badge alternative">替代选择</span>
+                        <h3>商业 AI 服务</h3>
+                    </div>
+                    <p>如果你追求<strong>开箱即用</strong>、不需要复杂定制、对数据隐私要求不高，商业服务可能更适合。</p>
+                    <div class="verdict-pros">
+                        <h4>适用场景</h4>
+                        <ul>
+                            <li>快速上手，无需技术背景</li>
+                            <li>专业编程：GitHub Copilot</li>
+                            <li>内容创作：Claude</li>
+                            <li>日常问答：ChatGPT / Gemini</li>
+                            <li>企业已有云服务生态</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo">🦞</span>
+                        <span>OpenClaw 101</span>
+                    </div>
+                    <p>开源免费的 OpenClaw 学习资源聚合站，助你 7 天掌握 AI 私人助理</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4>快速链接</h4>
+                    <a href="index.html">首页</a>
+                    <a href="skills-browser.html">技能市场</a>
+                    <a href="tools.html">工具箱</a>
+                    <a href="playground.html">在线体验</a>
+                </div>
+                <div class="footer-links-group">
+                    <h4>官方资源</h4>
+                    <a href="https://docs.openclaw.ai" target="_blank">官方文档</a>
+                    <a href="https://github.com/openclaw/openclaw" target="_blank">GitHub</a>
+                    <a href="https://clawhub.com" target="_blank">ClawHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 OpenClaw 101. 本站与 OpenClaw 官方无关，仅为社区学习资源聚合。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script>
+        // Tool Selector
+        const toolCards = document.querySelectorAll('.tool-card');
+        const comparisonTable = document.getElementById('comparisonTable');
+        
+        toolCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('selected');
+                updateTableVisibility();
+            });
+        });
+        
+        function updateTableVisibility() {
+            const selectedTools = Array.from(document.querySelectorAll('.tool-card.selected'))
+                .map(card => card.dataset.tool);
+            
+            // Update table columns
+            const headers = comparisonTable.querySelectorAll('th[data-tool]');
+            const cells = comparisonTable.querySelectorAll('td[data-tool]');
+            
+            headers.forEach(header => {
+                const tool = header.dataset.tool;
+                header.style.display = selectedTools.includes(tool) ? '' : 'none';
+            });
+            
+            cells.forEach(cell => {
+                const tool = cell.dataset.tool;
+                cell.style.display = selectedTools.includes(tool) ? '' : 'none';
+            });
+        }
+        
+        // Feature Explorer
+        const featureItems = document.querySelectorAll('.feature-item');
+        const featureDetail = document.getElementById('featureDetail');
+        
+        const featureData = {
+            agent: {
+                title: '自主 Agent 能力',
+                desc: '自主 Agent 是 AI 的下一个进化阶段，不仅能回答问题，还能主动规划、执行复杂任务。OpenClaw 是目前唯一专为自主 Agent 设计的开源平台。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '原生支持自主 Agent，可执行多步骤任务，调用工具，管理状态，是真正的数字助手。' },
+                    { name: 'ChatGPT', desc: '通过 GPTs 和插件有限支持，但主要仍是响应式对话，缺乏真正的自主性。' },
+                    { name: 'Claude', desc: '通过 Computer Use 功能支持部分 Agent 能力，但仍需用户确认每一步操作。' }
+                ]
+            },
+            privacy: {
+                title: '隐私与数据控制',
+                desc: '数据隐私是选择 AI 工具的重要考量。OpenClaw 的本地部署模式让你完全掌控自己的数据。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '完全本地部署，数据不出境，支持端到端加密，满足最严格的隐私要求。' },
+                    { name: 'ChatGPT', desc: '数据存储在 OpenAI 服务器，企业版提供更高隐私保护，但仍依赖第三方。' },
+                    { name: 'Claude', desc: 'Anthropic 承诺不将用户数据用于训练，但仍需信任服务提供商。' }
+                ]
+            },
+            extensibility: {
+                title: '扩展性',
+                desc: '扩展性决定了 AI 助手能否适应你的特定需求。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '1700+ 社区技能，支持自定义开发，几乎无限扩展可能。' },
+                    { name: 'ChatGPT', desc: 'GPTs 商店提供大量定制 GPT，但受限于平台框架。' },
+                    { name: 'Claude', desc: '主要通过 API 集成，生态相对有限。' }
+                ]
+            },
+            multimodal: {
+                title: '多模态支持',
+                desc: '处理文本、图像、音频、视频等多种数据类型的能力。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '通过技能支持多模态，可集成各种模型，灵活度高。' },
+                    { name: 'ChatGPT', desc: '原生支持图像理解和生成，语音对话。' },
+                    { name: 'Gemini', desc: 'Google 的多模态能力最强，原生支持视频理解。' }
+                ]
+            },
+            integration: {
+                title: '第三方集成',
+                desc: '与现有工具和平台的集成能力。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '10+ 平台原生支持，可接入任何支持 API 的服务。' },
+                    { name: 'ChatGPT', desc: '主要在自己的应用中运行，API 集成需要开发工作。' },
+                    { name: 'Copilot', desc: '深度集成 GitHub 和 VS Code，开发者体验极佳。' }
+                ]
+            },
+            cost: {
+                title: '成本效益',
+                desc: '总体拥有成本分析。',
+                tools: [
+                    { name: '🦞 OpenClaw', desc: '仅需服务器成本，无订阅费，API 费用可控，长期使用最经济。' },
+                    { name: 'ChatGPT Plus', desc: '$20/月，无服务器维护成本，适合轻度用户。' },
+                    { name: 'Claude Pro', desc: '$20/月，高用量时可能需要额外 API 费用。' }
+                ]
+            }
+        };
+        
+        featureItems.forEach(item => {
+            item.addEventListener('click', () => {
+                featureItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                const feature = item.dataset.feature;
+                const data = featureData[feature];
+                
+                featureDetail.innerHTML = `
+                    <h3>${data.title}</h3>
+                    <p>${data.desc}</p>
+                    <div class="tool-comparison-row">
+                        ${data.tools.map(tool => `
+                            <div class="tool-compare-item">
+                                <h4>${tool.name}</h4>
+                                <p>${tool.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            });
+        });
+        
+        // Mobile Navigation
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Initialize
+        updateTableVisibility();
+    </script>
+    <script src="ai-assistant.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+</body>
+</html>

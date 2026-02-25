@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
     <style>
         .cheatsheet-container {
             padding: 120px 0 60px;
@@ -199,8 +200,12 @@
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-link">首页</a>
-                <a href="roadmap.html" class="nav-link">路线图</a>
-                <a href="skills-browser.html" class="nav-link">技能浏览器</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="compare.html" class="nav-link">工具对比</a>
+                <a href="tools.html" class="nav-link">工具箱</a>
+                <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="ai-assistant.html" class="nav-link">AI 助手</a>
+                <a href="checkin.html" class="nav-link">每日打卡</a>
                 <a href="cheatsheet.html" class="nav-link active">速查表</a>
             </div>
         </div>
@@ -425,6 +430,12 @@
             navigator.clipboard.writeText(code);
             btn.textContent = '✓';
             setTimeout(() => btn.textContent = '📋', 2000);
+        }
+    </script>
+    <script src="ai-assistant.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
         }
     </script>
 </body>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 助手 - OpenClaw 101</title>
+    <meta name="description" content="OpenClaw 101 内置 AI 助手，随时解答你的问题">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ai-assistant.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="index.html#learning-path" class="nav-link">学习路径</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="checkin.html" class="nav-link">每日打卡</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题"></button>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="ai-assistant-page">
+        <div class="container">
+            <div class="page-header">
+                <span class="section-badge">🤖 AI 助手</span>
+                <h1 class="page-title">你的 OpenClaw 学习助手</h1>
+                <p class="page-desc">有任何关于 OpenClaw 的问题？随时问我！</p>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Welcome Message -->
+                    <div class="message assistant-message">
+                        <div class="message-avatar">
+                            <span>🦞</span>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>你好！我是 OpenClaw 101 的 AI 助手 🎉</p>
+                                <p>我可以帮你：</p>
+                                <ul>
+                                    <li>解答 OpenClaw 相关问题</li>
+                                    <li>推荐学习资源</li>
+                                    <li>解释技术概念</li>
+                                    <li>提供安装和配置指导</li>
+                                </ul>
+                                <p>你可以直接输入问题，或者点击下方常见问题 👇</p>
+                            </div>
+                            <span class="message-time">刚刚</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div class="quick-questions" id="quickQuestions">
+                    <h3>💡 常见问题</h3>
+                    <div class="quick-questions-grid">
+                        <button class="quick-question-btn" data-question="什么是 OpenClaw？">
+                            <span class="q-icon">❓</span>
+                            <span class="q-text">什么是 OpenClaw？</span>
+                        </button>
+                        <button class="quick-question-btn" data-question="如何安装 OpenClaw？">
+                            <span class="q-icon">📦</span>
+                            <span class="q-text">如何安装 OpenClaw？</span>
+                        </button>
+                        <button class="quick-question-btn" data-question="OpenClaw 支持哪些平台？">
+                            <span class="q-icon">💬</span>
+                            <span class="q-text">支持哪些平台？</span>
+                        </button>
+                        <button class="quick-question-btn" data-question="如何开发自定义技能？">
+                            <span class="q-icon">🛠️</span>
+                            <span class="q-text">如何开发技能？</span>
+                        </button>
+                        <button class="quick-question-btn" data-question="OpenClaw 和 Claude Code 有什么区别？">
+                            <span class="q-icon">🔄</span>
+                            <span class="q-text">与 Claude Code 的区别</span>
+                        </button>
+                        <button class="quick-question-btn" data-question="推荐的学习路径是什么？">
+                            <span class="q-icon">🎯</span>
+                            <span class="q-text">学习路径推荐</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator hidden" id="typingIndicator">
+                    <div class="typing-avatar">
+                        <span>🦞</span>
+                    </div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <button class="voice-btn" id="voiceBtn" title="语音输入">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                        </button>
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="输入你的问题..."
+                            autocomplete="off"
+                        >
+                        <button class="send-btn" id="sendBtn" title="发送">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="voice-recording hidden" id="voiceRecording">
+                        <div class="voice-wave">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <span class="voice-text">正在聆听...</span>
+                        <button class="voice-cancel" id="voiceCancel">取消</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Info -->
+            <div class="assistant-features">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>即时回答</h3>
+                    <p>基于 OpenClaw 知识库，快速解答你的问题</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <h3>语音输入</h3>
+                    <p>支持语音输入，解放双手</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>知识丰富</h3>
+                    <p>涵盖安装、配置、开发等全方位知识</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>隐私安全</h3>
+                    <p>对话内容仅存储在本地</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 OpenClaw 101. 本站与 OpenClaw 官方无关，仅为社区学习资源聚合。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="ai-assistant.js"></script>
+</body>
+</html>

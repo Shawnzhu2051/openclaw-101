@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <!-- Navigation -->
@@ -25,12 +26,12 @@
                 <a href="#learning-path" class="nav-link">7天学习</a>
                 <a href="#skills" class="nav-link">技能市场</a>
                 <a href="#resources" class="nav-link">资源库</a>
-                <a href="https://github.com/Shawnzhu2051/openclaw-101" target="_blank" class="nav-link github-link">
-                    <svg height="18" viewBox="0 0 16 16" width="18"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                    <span>GitHub</span>
-                </a>
+                <a href="compare.html" class="nav-link">工具对比</a>
+                <a href="tools.html" class="nav-link">工具箱</a>
                 <a href="skills-browser.html" class="nav-link">技能市场</a>
                 <a href="playground.html" class="nav-link">在线体验</a>
+                <a href="ai-assistant.html" class="nav-link">AI 助手</a>
+                <a href="checkin.html" class="nav-link">每日打卡</a>
                 <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
                     <!-- Icon will be set by theme.js -->
                 </button>
@@ -54,7 +55,7 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <span class="badge-pulse"></span>
-                    <span class="badge-text">✨ 开源免费 · 收录 250+ 篇教程资源</span>
+                    <span class="badge-text">✨ 开源免费 · 收录 300+ 篇教程资源</span>
                 </div>
                 <h1 class="hero-title">
                     从零开始，<span class="gradient-text">7天</span>掌握你的<br>AI 私人助理
@@ -422,19 +423,19 @@
             <!-- Stats Bar -->
             <div class="resources-stats">
                 <div class="r-stat">
-                    <span class="r-number">250+</span>
+                    <span class="r-number">300+</span>
                     <span class="r-label">篇教程</span>
                 </div>
                 <div class="r-stat">
-                    <span class="r-number">60+</span>
+                    <span class="r-number">80+</span>
                     <span class="r-label">中文资源</span>
                 </div>
                 <div class="r-stat">
-                    <span class="r-number">190+</span>
+                    <span class="r-number">220+</span>
                     <span class="r-label">英文资源</span>
                 </div>
                 <div class="r-stat">
-                    <span class="r-number">9</span>
+                    <span class="r-number">12</span>
                     <span class="r-label">大分类</span>
                 </div>
             </div>
@@ -476,6 +477,12 @@
                 </div>
             </div>
 
+            <!-- Popular Resources -->
+            <div class="popular-resources" id="popularResources">
+                <h3>🔥 热门资源</h3>
+                <!-- Will be populated by JavaScript -->
+            </div>
+
             <!-- Resources Grid -->
             <div class="resources-grid" id="resourcesGrid">
                 <!-- Resources will be populated by JavaScript -->
@@ -489,6 +496,15 @@
             </div>
         </div>
     </section>
+
+    <!-- Keyboard Shortcuts Help -->
+    <div class="keyboard-shortcuts" id="keyboardShortcuts">
+        <h4>⌨️ 快捷键</h4>
+        <div><kbd>/</kbd> 聚焦搜索</div>
+        <div><kbd>ESC</kbd> 关闭弹窗</div>
+        <div><kbd>↑↓</kbd> 导航资源</div>
+        <div><kbd>Enter</kbd> 打开资源</div>
+    </div>
 
     <!-- Newsletter Section -->
     <section class="section newsletter">
@@ -564,5 +580,22 @@
     <script src="favorites.js"></script>
     <script src="search-enhanced.js"></script>
     <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="effects.js"></script>
+    <script src="ai-assistant.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
