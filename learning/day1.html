@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: 初识 OpenClaw - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="learning.css">
+</head>
+<body class="learning-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#learning-path" class="nav-link">← 返回学习路径</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="day-hero">
+        <div class="container">
+            <div class="day-badge">Day 01</div>
+            <h1>初识 OpenClaw</h1>
+            <p class="day-desc">了解 OpenClaw 的核心概念、架构设计和适用场景。理解 AI Agent 与传统 Chatbot 的本质区别。</p>
+            
+            <div class="day-meta">
+                <span>⏱️ 预计学习时间：45 分钟</span>
+                <span>📚 5 个章节</span>
+                <span>🎯 初学者</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="learning-content container">
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 14%"></div>
+            <span>7天学习路径 - 第 1/7 天</span>
+        </div>
+
+        <!-- Sidebar + Main -->
+        <div class="content-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="content-sidebar">
+                <nav class="section-nav">
+                    <h3>本日内容</h3>
+                    <ul>
+                        <li><a href="#what-is" class="active">什么是 OpenClaw？</a></li>
+                        <li><a href="#agent-vs-bot">AI Agent vs Chatbot</a></li>
+                        <li><a href="#architecture">架构概览</a></li>
+                        <li><a href="#use-cases">适用场景</a></li>
+                        <li><a href="#next">下一步</a></li>
+                    </ul>
+                    
+                    <h3>学习路径</h3>
+                    <ul class="day-nav">
+                        <li class="current">Day 1: 初识 OpenClaw</li>
+                        <li><a href="day2.html">Day 2: 环境搭建</a></li>
+                        <li><a href="day3.html">Day 3: 平台接入</a></li>
+                        <li><a href="day4.html">Day 4: 技能探索</a></li>
+                        <li><a href="day5.html">Day 5: 记忆与个性化</a></li>
+                        <li><a href="day6.html">Day 6: 技能开发</a></li>
+                        <li><a href="day7.html">Day 7: 进阶与生产</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content-main">
+                <!-- Section 1 -->
+                <section id="what-is" class="content-section">
+                    <h2>什么是 OpenClaw？</h2>
+                    
+                    <p><strong>OpenClaw</strong> 是一个开源的 AI 助理平台，让你拥有一个 24/7 在线的私人 AI 助理。与其他 AI 工具不同，OpenClaw 是<strong>自主运行</strong>的——它不需要你不断输入指令，而是可以主动为你执行任务。</p>
+                    
+                    <div class="highlight-box">
+                        <h4>🎯 核心特点</h4>
+                        <ul>
+                            <li><strong>自主执行</strong> - 不只是回答问题，还能主动完成任务</li>
+                            <li><strong>多平台接入</strong> - Telegram、Discord、飞书、钉钉等</li>
+                            <li><strong>技能扩展</strong> - 1715+ 社区技能，一键安装</li>
+                            <li><strong>数据自主</strong> - 完全自托管，数据存储在你自己的服务器</li>
+                            <li><strong>持久记忆</strong> - 记住你的偏好和历史对话</li>
+                        </ul>
+                    </div>
+
+                    <h3>OpenClaw 能做什么？</h3>
+                    
+                    <div class="capability-grid">
+                        <div class="capability-card">
+                            <div class="cap-icon">💬</div>
+                            <h4>智能对话</h4>
+                            <p>自然语言交流，理解上下文，保持连贯对话</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">⚡</div>
+                            <h4>任务执行</h4>
+                            <p>发送邮件、查询天气、管理日程、控制设备</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🔍</div>
+                            <h4>信息检索</h4>
+                            <p>搜索网页、查询数据库、分析文档、生成报告</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🛠️</div>
+                            <h4>代码辅助</div>
+                            <p>编写代码、调试程序、代码审查、技术文档</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="agent-vs-bot" class="content-section">
+                    <h2>AI Agent vs Chatbot</h2>
+                    
+                    <p>理解 AI Agent 和传统 Chatbot 的区别，是掌握 OpenClaw 的关键。</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>特性</th>
+                                    <th>传统 Chatbot</th>
+                                    <th>AI Agent (OpenClaw)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>交互方式</td>
+                                    <td>被动响应，一问一答</td>
+                                    <td class="highlight">主动执行，可自主决策</td>
+                                </tr>
+                                <tr>
+                                    <td>任务能力</td>
+                                    <td>文本回复</td>
+                                    <td class="highlight">可执行代码、调用 API、操作文件</td>
+                                </tr>
+                                <tr>
+                                    <td>记忆能力</td>
+                                    <td>短期对话上下文</td>
+                                    <td class="highlight">长期记忆，记住用户偏好</td>
+                                </tr>
+                                <tr>
+                                    <td>扩展性</td>
+                                    <td>预设规则</td>
+                                    <td class="highlight">技能插件，无限扩展</td>
+                                </tr>
+                                <tr>
+                                    <td>数据控制</td>
+                                    <td>云端服务，数据外泄</td>
+                                    <td class="highlight">自托管，数据自主</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 关键理解</h4>
+                        <p>OpenClaw 不是"更聪明的聊天机器人"，而是<strong>能够自主行动的 AI 助手</strong>。你可以对它说"帮我整理本周的邮件"，它会主动访问你的邮箱、分类邮件、生成摘要，而不是仅仅告诉你"我可以帮你整理邮件"。</p>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="architecture" class="content-section">
+                    <h2>架构概览</h2>
+                    
+                    <p>了解 OpenClaw 的整体架构，有助于你更好地使用和扩展它。</p>
+
+                    <div class="architecture-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-title">用户层</div>
+                            <div class="arch-items">
+                                <span class="arch-item">Telegram</span>
+                                <span class="arch-item">Discord</span>
+                                <span class="arch-item">飞书</span>
+                                <span class="arch-item">钉钉</span>
+                                <span class="arch-item">Web UI</span>
+                            </div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer highlight">
+                            <div class="arch-title">Gateway（网关层）</div>
+                            <div class="arch-desc">消息路由、协议转换、用户管理</div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer highlight">
+                            <div class="arch-title">Brain（大脑层）</div>
+                            <div class="arch-desc">AI 模型、推理决策、任务规划</div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer">
+                            <div class="arch-title">Skills（技能层）</div>
+                            <div class="arch-items">
+                                <span class="arch-item">天气查询</span>
+                                <span class="arch-item">代码执行</span>
+                                <span class="arch-item">文件操作</span>
+                                <span class="arch-item">API 调用</span>
+                                <span class="arch-item">+1715 更多</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>核心组件说明</h3>
+                    
+                    <div class="component-list">
+                        <div class="component-item">
+                            <h4>🌐 Gateway（网关）</h4>
+                            <p>负责与外部平台（Telegram、Discord 等）通信，将用户消息转换为内部格式，并将回复发送回用户。</p>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>🧠 Brain（大脑）</h4>
+                            <p>核心 AI 层，连接大语言模型（Claude、GPT 等），负责理解用户意图、规划任务、生成回复。</p>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>🛠️ Skills（技能）</h4>
+                            <p>可插拔的功能模块，每个 Skill 提供特定的能力（如查天气、发邮件）。ClawHub 上有 1715+ 社区 Skill。</p>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>💾 Memory（记忆）</h4>
+                            <p>存储用户偏好、历史对话、重要信息，让 AI 能够"记住"你。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="use-cases" class="content-section">
+                    <h2>适用场景</h2>
+                    
+                    <p>OpenClaw 适合哪些人使用？以下是一些典型的使用场景：</p>
+
+                    <div class="usecase-grid">
+                        <div class="usecase-card">
+                            <div class="usecase-icon">👨‍💻</div>
+                            <h4>开发者</h4>
+                            <ul>
+                                <li>代码辅助和审查</li>
+                                <li>自动化脚本执行</li>
+                                <li>API 测试和文档</li>
+                                <li>技术问题解答</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="usecase-card">
+                            <div class="usecase-icon">💼</div>
+                            <h4>职场人士</h4>
+                            <ul>
+                                <li>邮件管理和回复</li>
+                                <li>日程安排和提醒</li>
+                                <li>会议记录整理</li>
+                                <li>文档撰写辅助</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="usecase-card">
+                            <div class="usecase-icon">🎓</div>
+                            <h4>学生/研究者</h4>
+                            <ul>
+                                <li>文献检索和总结</li>
+                                <li>论文写作辅助</li>
+                                <li>数据分析</li>
+                                <li>知识管理</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="usecase-card">
+                            <div class="usecase-icon">🏠</div>
+                            <h4>智能家居爱好者</h4>
+                            <ul>
+                                <li>语音控制家电</li>
+                                <li>自动化场景</li>
+                                <li>设备状态监控</li>
+                                <li>能耗分析</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="next" class="content-section">
+                    <h2>下一步</h2>
+                    
+                    <p>恭喜！你已经完成了第一天的学习，对 OpenClaw 有了基本的了解。</p>
+
+                    <div class="checklist">
+                        <h3>✅ 本日完成清单</h3>
+                        
+                        <ul>
+                            <li><input type="checkbox" checked> 了解 OpenClaw 是什么</li>
+                            <li><input type="checkbox" checked> 理解 AI Agent 与 Chatbot 的区别</li>
+                            <li><input type="checkbox" checked> 了解 OpenClaw 的核心架构</li>
+                            <li><input type="checkbox" checked> 明确自己的使用场景</li>
+                        </ul>
+                    </div>
+
+                    <div class="next-day-preview">
+                        <h3>🚀 明天预告：Day 2 - 环境搭建</h3>
+                        
+                        <p>明天我们将动手安装 OpenClaw，包括：</p>
+                        
+                        <ul>
+                            <li>系统要求和环境准备</li>
+                            <li>在本地安装 OpenClaw</li>
+                            <li>完成初始化配置</li>
+                            <li>启动并测试你的第一个 AI 助手</li>
+                        </ul>
+
+                        <a href="day2.html" class="btn btn-primary btn-lg">
+                            继续 Day 2
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Navigation Footer -->
+                <footer class="day-footer">
+                    <div class="day-nav-footer">
+                        <span></span>
+                        <a href="day2.html" class="btn btn-secondary">
+                            下一章：环境搭建
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                        </a>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.section-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

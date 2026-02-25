@@ -611,6 +611,8 @@ a {
     gap: 32px;
     margin-bottom: 40px;
     position: relative;
+    text-decoration: none;
+    color: inherit;
 }
 
 .timeline-marker {
@@ -640,6 +642,26 @@ a {
     border-radius: var(--radius-lg);
     padding: 24px;
     transition: var(--transition-normal);
+}
+
+.timeline-item:hover .timeline-content {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-primary);
+    transform: translateX(8px);
+}
+
+.timeline-arrow {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-primary-light);
+    opacity: 0;
+    transition: var(--transition-fast);
+}
+
+.timeline-item:hover .timeline-arrow {
+    opacity: 1;
 }
 
 .timeline-content:hover {
