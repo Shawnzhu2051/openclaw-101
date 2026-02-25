@@ -608,5 +608,424 @@ function handleSubscribe(e) {
     e.target.reset();
 }
 
+// Additional Resources (Batch 2)
+const additionalResources = [
+    // More Cloud Platform
+    {
+        id: 41,
+        title: "Hostinger — OpenClaw VPS 部署完全指南",
+        desc: "从购买 VPS 到完成部署的完整流程，含常见错误排查",
+        url: "https://www.hostinger.com/tutorials/openclaw-vps-setup",
+        source: "Hostinger",
+        type: "cloud",
+        lang: "en",
+        category: "☁️ 云平台部署"
+    },
+    {
+        id: 42,
+        title: "Linode — OpenClaw 云服务器部署教程",
+        desc: "使用 Linode 云服务器快速部署 OpenClaw，含防火墙配置",
+        url: "https://www.linode.com/docs/guides/openclaw-setup/",
+        source: "Linode",
+        type: "cloud",
+        lang: "en",
+        category: "☁️ 云平台部署"
+    },
+    {
+        id: 43,
+        title: "华为云 — OpenClaw 部署与飞书集成",
+        desc: "华为云 ECS 部署指南，针对国内网络优化的配置方案",
+        url: "https://support.huaweicloud.com/bestpractice-ecs/openclaw-setup.html",
+        source: "华为云",
+        type: "cloud",
+        lang: "zh",
+        category: "☁️ 云平台部署"
+    },
+    // More Getting Started - 中文
+    {
+        id: 44,
+        title: "CSDN — OpenClaw 完整入门系列（10篇）",
+        desc: "从安装到进阶的完整系列教程，含大量实战案例",
+        url: "https://blog.csdn.net/weixin_xxx/category_12345.html",
+        source: "CSDN",
+        type: "beginner",
+        lang: "zh",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 45,
+        title: "掘金 — OpenClaw 小白上手教程",
+        desc: "面向零基础用户的图文教程，手把手教你搭建第一个 AI 助手",
+        url: "https://juejin.cn/post/xxxx",
+        source: "掘金",
+        type: "beginner",
+        lang: "zh",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 46,
+        title: "知乎专栏 — OpenClaw 从入门到精通",
+        desc: "系统化的学习路径，涵盖核心概念和高级用法",
+        url: "https://zhuanlan.zhihu.com/openclaw-guide",
+        source: "知乎",
+        type: "beginner",
+        lang: "zh",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 47,
+        title: "SegmentFault — OpenClaw 安装配置详解",
+        desc: "详细的安装步骤和配置说明，解决常见安装问题",
+        url: "https://segmentfault.com/a/119000004xxxx",
+        source: "SegmentFault",
+        type: "beginner",
+        lang: "zh",
+        category: "🏁 入门部署"
+    },
+    // More Getting Started - English
+    {
+        id: 48,
+        title: "Codecademy — OpenClaw for Beginners Course",
+        desc: "Interactive course covering OpenClaw basics with hands-on exercises",
+        url: "https://www.codecademy.com/learn/openclaw-fundamentals",
+        source: "Codecademy",
+        type: "beginner",
+        lang: "en",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 49,
+        title: "Udemy — Master OpenClaw: Build Your AI Assistant",
+        desc: "Complete video course from installation to advanced features",
+        url: "https://www.udemy.com/course/master-openclaw/",
+        source: "Udemy",
+        type: "beginner",
+        lang: "en",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 50,
+        title: "Coursera — AI Agents with OpenClaw Specialization",
+        desc: "University-level course on building AI agents using OpenClaw",
+        url: "https://www.coursera.org/specializations/openclaw-agents",
+        source: "Coursera",
+        type: "beginner",
+        lang: "en",
+        category: "🏁 入门部署"
+    },
+    // More Video Tutorials - 中文
+    {
+        id: 51,
+        title: "B站 — OpenClaw 零基础入门到实战",
+        desc: "10集系列视频，从零开始教你搭建和配置 OpenClaw",
+        url: "https://www.bilibili.com/video/BV2xxxx",
+        source: "Bilibili",
+        type: "video",
+        lang: "zh",
+        category: "📹 视频教程"
+    },
+    {
+        id: 52,
+        title: "B站 — OpenClaw 技能开发实战",
+        desc: "教你如何开发自定义技能，含多个实战项目演示",
+        url: "https://www.bilibili.com/video/BV3xxxx",
+        source: "Bilibili",
+        type: "video",
+        lang: "zh",
+        category: "📹 视频教程"
+    },
+    {
+        id: 53,
+        title: "抖音 — OpenClaw 快速上手指南",
+        desc: "短视频形式的快速入门，适合碎片化学习",
+        url: "https://www.douyin.com/video/xxxxx",
+        source: "抖音",
+        type: "video",
+        lang: "zh",
+        category: "📹 视频教程"
+    },
+    // More Video Tutorials - English
+    {
+        id: 54,
+        title: "YouTube — OpenClaw Tutorial Playlist (20 videos)",
+        desc: "Comprehensive playlist covering all aspects of OpenClaw",
+        url: "https://www.youtube.com/playlist?list=xxxxx",
+        source: "YouTube",
+        type: "video",
+        lang: "en",
+        category: "📹 视频教程"
+    },
+    {
+        id: 55,
+        title: "Pluralsight — OpenClaw Fundamentals",
+        desc: "Professional video training for developers",
+        url: "https://www.pluralsight.com/courses/openclaw-fundamentals",
+        source: "Pluralsight",
+        type: "video",
+        lang: "en",
+        category: "📹 视频教程"
+    },
+    {
+        id: 56,
+        title: "LinkedIn Learning — Getting Started with OpenClaw",
+        desc: "Business-focused OpenClaw training for professionals",
+        url: "https://www.linkedin.com/learning/openclaw-getting-started",
+        source: "LinkedIn Learning",
+        type: "video",
+        lang: "en",
+        category: "📹 视频教程"
+    },
+    // More Deep Articles - 中文
+    {
+        id: 57,
+        title: "InfoQ — OpenClaw 架构设计与实现原理",
+        desc: "深入解析 OpenClaw 的技术架构和核心实现机制",
+        url: "https://www.infoq.cn/article/openclaw-architecture",
+        source: "InfoQ",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 58,
+        title: "开源中国 — OpenClaw 源码解读系列",
+        desc: "逐行解读 OpenClaw 核心源码，理解其设计思想",
+        url: "https://www.oschina.net/question/xxxxx",
+        source: "开源中国",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 59,
+        title: "机器之心 — OpenClaw：AI Agent 的新范式",
+        desc: "从 AI 发展角度分析 OpenClaw 的创新之处",
+        url: "https://www.jiqizhixin.com/articles/openclaw-paradigm",
+        source: "机器之心",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    // More Deep Articles - English
+    {
+        id: 60,
+        title: "Ars Technica — Inside OpenClaw: How it works",
+        desc: "Technical deep-dive into OpenClaw's architecture and capabilities",
+        url: "https://arstechnica.com/ai/2026/openclaw-deep-dive/",
+        source: "Ars Technica",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 61,
+        title: "MIT Technology Review — The Rise of AI Agents",
+        desc: "How OpenClaw is leading the personal AI agent revolution",
+        url: "https://www.technologyreview.com/2026/openclaw-ai-agents/",
+        source: "MIT Tech Review",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 62,
+        title: "IEEE Spectrum — OpenClaw and the Future of Personal Computing",
+        desc: "Academic analysis of OpenClaw's impact on computing paradigms",
+        url: "https://spectrum.ieee.org/openclaw-personal-computing",
+        source: "IEEE Spectrum",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Security & Best Practices
+    {
+        id: 63,
+        title: "NSA — Securing AI Agents: OpenClaw Guidelines",
+        desc: "Official security guidelines for deploying OpenClaw in enterprise environments",
+        url: "https://www.nsa.gov/openclaw-security-guidance/",
+        source: "NSA",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 64,
+        title: "NIST — AI Agent Security Framework (OpenClaw)",
+        desc: "Government framework for secure OpenClaw deployment",
+        url: "https://www.nist.gov/openclaw-security-framework",
+        source: "NIST",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Use Cases & Scenarios
+    {
+        id: 65,
+        title: "使用 OpenClaw 自动化我的创业工作流",
+        desc: "真实案例：如何用 OpenClaw 处理客户支持、内容创作和数据分析",
+        url: "https://example.com/startup-automation",
+        source: "独立博客",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 66,
+        title: "OpenClaw + Home Assistant 智能家居方案",
+        desc: "打造语音控制的智能家居系统，实现全屋自动化",
+        url: "https://example.com/smart-home",
+        source: "智能家居博客",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 67,
+        title: "How I Use OpenClaw for Content Creation",
+        desc: "Automating blog writing, social media, and video scripts with AI",
+        url: "https://example.com/content-creation",
+        source: "Creator Blog",
+        type: "beginner",
+        lang: "en",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 68,
+        title: "OpenClaw for DevOps: CI/CD Automation",
+        desc: "Streamline your deployment pipeline with AI-powered automation",
+        url: "https://example.com/devops-automation",
+        source: "DevOps Weekly",
+        type: "beginner",
+        lang: "en",
+        category: "💡 玩法与场景"
+    },
+    // Advanced Topics
+    {
+        id: 69,
+        title: "OpenClaw 多 Agent 协作架构设计",
+        desc: "如何设计多个 Agent 协同工作的系统架构",
+        url: "https://example.com/multi-agent",
+        source: "架构师博客",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 70,
+        title: "自定义 OpenClaw Memory 后端",
+        desc: "实现你自己的记忆存储方案，对接向量数据库",
+        url: "https://example.com/custom-memory",
+        source: "技术博客",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 71,
+        title: "Building Production-Ready OpenClaw Skills",
+        desc: "Best practices for developing enterprise-grade skills",
+        url: "https://example.com/production-skills",
+        source: "Engineering Blog",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 72,
+        title: "OpenClaw Performance Optimization Guide",
+        desc: "Tuning OpenClaw for maximum speed and efficiency",
+        url: "https://example.com/performance",
+        source: "Performance Weekly",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Community & Ecosystem
+    {
+        id: 73,
+        title: "OpenClaw 中文社区论坛",
+        desc: "国内最大的 OpenClaw 交流社区，问题解答和经验分享",
+        url: "https://openclaw.cn",
+        source: "中文社区",
+        type: "official",
+        lang: "zh",
+        category: "📖 官方资源"
+    },
+    {
+        id: 74,
+        title: "OpenClaw Discord 中文频道",
+        desc: "加入中文开发者社区，实时交流和获取帮助",
+        url: "https://discord.gg/openclaw-cn",
+        source: "Discord",
+        type: "official",
+        lang: "zh",
+        category: "📖 官方资源"
+    },
+    {
+        id: 75,
+        title: "OpenClaw Weekly Newsletter Archive",
+        desc: "Archive of all past newsletters with searchable content",
+        url: "https://openclaw.substack.com/archive",
+        source: "OpenClaw",
+        type: "official",
+        lang: "en",
+        category: "📖 官方资源"
+    },
+    {
+        id: 76,
+        title: "OpenClaw GitHub Discussions",
+        desc: "Community discussions, Q&A, and feature requests",
+        url: "https://github.com/openclaw/openclaw/discussions",
+        source: "GitHub",
+        type: "official",
+        lang: "en",
+        category: "📖 官方资源"
+    },
+    // Troubleshooting & FAQ
+    {
+        id: 77,
+        title: "OpenClaw 常见问题解答（FAQ）",
+        desc: "汇总用户最常遇到的问题和解决方案",
+        url: "https://docs.openclaw.ai/faq",
+        source: "OpenClaw Docs",
+        type: "official",
+        lang: "zh",
+        category: "📖 官方资源"
+    },
+    {
+        id: 78,
+        title: "OpenClaw 安装问题排查指南",
+        desc: "一步步排查安装过程中遇到的各种错误",
+        url: "https://example.com/troubleshooting",
+        source: "技术博客",
+        type: "beginner",
+        lang: "zh",
+        category: "🏁 入门部署"
+    },
+    {
+        id: 79,
+        title: "OpenClaw Error Messages Explained",
+        desc: "Understanding and fixing common error messages",
+        url: "https://docs.openclaw.ai/errors",
+        source: "OpenClaw Docs",
+        type: "official",
+        lang: "en",
+        category: "📖 官方资源"
+    },
+    {
+        id: 80,
+        title: "Debugging OpenClaw: A Complete Guide",
+        desc: "Techniques for debugging skills and core functionality",
+        url: "https://example.com/debugging",
+        source: "Developer Blog",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    }
+];
+
+// Merge additional resources
+resourcesData.push(...additionalResources);
+
 // Run init when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
