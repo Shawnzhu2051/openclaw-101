@@ -43,6 +43,38 @@
     --transition-slow: 0.4s ease;
 }
 
+/* Light Theme */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #f1f3f5;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8f9fa;
+    --bg-elevated: #e9ecef;
+    
+    --text-primary: #1a1a2e;
+    --text-secondary: #495057;
+    --text-tertiary: #6c757d;
+    --text-muted: #adb5bd;
+    
+    --accent-primary: #4f46e5;
+    --accent-primary-light: #6366f1;
+    --accent-secondary: #0891b2;
+    
+    --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+    --gradient-text: linear-gradient(135deg, #0891b2 0%, #4f46e5 50%, #7c3aed 100%);
+    --gradient-glow: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(79, 70, 229, 0.1), transparent);
+    
+    --border-color: #dee2e6;
+    --border-color-light: #ced4da;
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.15);
+    --shadow-glow-sm: 0 0 20px rgba(79, 70, 229, 0.1);
+}
+
 /* Reset & Base */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -1400,4 +1432,304 @@ a {
 .category-card,
 .resource-card {
     animation: fadeInUp 0.6s ease forwards;
+}
+
+/* ============================================
+   NEW COMPONENTS - Theme, Favorites, Search
+   ============================================ */
+
+/* Theme Toggle Button */
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    margin-left: 8px;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+}
+
+/* Favorite Button */
+.favorite-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    z-index: 10;
+}
+
+.favorite-btn:hover {
+    background: var(--bg-elevated);
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+}
+
+.favorite-btn.favorited {
+    background: var(--accent-pink);
+    border-color: var(--accent-pink);
+    color: white;
+}
+
+.resource-card {
+    position: relative;
+}
+
+/* Search Suggestions */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background: var(--bg-card-hover);
+}
+
+.suggestion-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.suggestion-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.suggestion-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suggestion-title mark {
+    background: var(--accent-primary);
+    color: white;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.suggestion-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.suggestion-source {
+    color: var(--text-secondary);
+}
+
+.suggestion-lang {
+    padding: 1px 6px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.suggestion-empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.suggestion-empty span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.suggestion-empty p {
+    font-size: 0.9rem;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: var(--accent-primary);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition-normal);
+    z-index: 999;
+    box-shadow: var(--shadow-glow-sm);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: var(--accent-primary-light);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Favorites Count Badge */
+.favorites-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-danger);
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Enhanced Mobile Navigation */
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-color);
+        padding: 16px 24px;
+        flex-direction: column;
+        gap: 8px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+    }
+    
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-link {
+        padding: 12px 16px;
+        border-radius: var(--radius-md);
+    }
+    
+    .nav-link:hover {
+        background: var(--bg-tertiary);
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    .github-link {
+        margin-top: 8px;
+        justify-content: center;
+    }
+    
+    .theme-toggle {
+        margin: 8px auto 0;
+    }
+    
+    .search-suggestions {
+        position: fixed;
+        top: auto;
+        left: 16px;
+        right: 16px;
+        max-height: 60vh;
+    }
+    
+    .favorite-btn {
+        opacity: 1;
+    }
+}
+
+/* Typing Animation for Playground */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+/* Skill Card Install Button Animation */
+@keyframes pulse-install {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+}
+
+.install-btn:active {
+    animation: pulse-install 0.3s ease;
+}
+
+/* Loading Skeleton */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }

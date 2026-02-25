@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2: 环境搭建 - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="learning.css">
+</head>
+<body class="learning-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#learning-path" class="nav-link">← 返回学习路径</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="day-hero">
+        <div class="container">
+            <div class="day-badge">Day 02</div>
+            <h1>环境搭建</h1>
+            <p class="day-desc">在本地或云端部署 OpenClaw。涵盖 macOS、Linux、Windows 全平台安装指南，以及 Docker 部署方案。</p>
+            
+            <div class="day-meta">
+                <span>⏱️ 预计学习时间：60 分钟</span>
+                <span>📚 5 个章节</span>
+                <span>🎯 初学者</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="learning-content container">
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 28%"></div>
+            <span>7天学习路径 - 第 2/7 天</span>
+        </div>
+
+        <!-- Sidebar + Main -->
+        <div class="content-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="content-sidebar">
+                <nav class="section-nav">
+                    <h3>本日内容</h3>
+                    <ul>
+                        <li><a href="#requirements" class="active">系统要求</a></li>
+                        <li><a href="#macos">macOS 安装</a></li>
+                        <li><a href="#linux">Linux 安装</a></li>
+                        <li><a href="#windows">Windows 安装</a></li>
+                        <li><a href="#docker">Docker 部署</a></li>
+                        <li><a href="#init">初始化配置</a></li>
+                        <li><a href="#next">下一步</a></li>
+                    </ul>
+                    
+                    <h3>学习路径</h3>
+                    <ul class="day-nav">
+                        <li><a href="day1.html">Day 1: 初识 OpenClaw</a></li>
+                        <li class="current">Day 2: 环境搭建</li>
+                        <li><a href="day3.html">Day 3: 平台接入</a></li>
+                        <li><a href="day4.html">Day 4: 技能探索</a></li>
+                        <li><a href="day5.html">Day 5: 记忆与个性化</a></li>
+                        <li><a href="day6.html">Day 6: 技能开发</a></li>
+                        <li><a href="day7.html">Day 7: 进阶与生产</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content-main">
+                <!-- Section 1: System Requirements -->
+                <section id="requirements" class="content-section">
+                    <h2>系统要求</h2>
+                    
+                    <p>在开始安装之前，请确保你的系统满足以下基本要求。OpenClaw 设计为轻量级，可以在大多数现代设备上运行。</p>
+                    
+                    <div class="highlight-box">
+                        <h4>📋 最低配置要求</h4>
+                        <ul>
+                            <li><strong>操作系统</strong> - macOS 12+ / Ubuntu 20.04+ / Windows 10+ / Docker</li>
+                            <li><strong>内存</strong> - 4GB RAM（推荐 8GB+）</li>
+                            <li><strong>存储</strong> - 2GB 可用空间</li>
+                            <li><strong>Node.js</strong> - v18.0 或更高版本</li>
+                            <li><strong>网络</strong> - 稳定的互联网连接（用于下载技能和 API 调用）</li>
+                        </ul>
+                    </div>
+
+                    <h3>推荐的开发环境</h3>
+                    
+                    <div class="capability-grid">
+                        <div class="capability-card">
+                            <div class="cap-icon">🍎</div>
+                            <h4>macOS</h4>
+                            <p>最佳开发体验，原生支持所有功能</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🐧</div>
+                            <h4>Linux</h4>
+                            <p>生产环境首选，稳定高效</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🪟</div>
+                            <h4>Windows</h4>
+                            <p>支持 WSL2，功能完整</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🐳</div>
+                            <h4>Docker</h4>
+                            <p>跨平台一致，易于部署</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 提示</h4>
+                        <p>如果你是第一次使用 OpenClaw，推荐先在本地（macOS/Linux）体验，熟悉后再部署到云端服务器。</p>
+                    </div>
+                </section>
+
+                <!-- Section 2: macOS Installation -->
+                <section id="macos" class="content-section">
+                    <h2>macOS 安装</h2>
+                    
+                    <p>macOS 是 OpenClaw 的主要开发平台，提供最佳的安装体验。</p>
+
+                    <h3>步骤 1：安装 Homebrew（如未安装）</h3>
+                    <div class="code-block">
+                        <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, '/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;')">📋</button>
+                    </div>
+
+                    <h3>步骤 2：安装 Node.js</h3>
+                    <div class="code-block">
+                        <pre><code>brew install node@20</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'brew install node@20')">📋</button>
+                    </div>
+
+                    <h3>步骤 3：安装 OpenClaw CLI</h3>
+                    <div class="code-block">
+                        <pre><code>npm install -g @openclaw/cli</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'npm install -g @openclaw/cli')">📋</button>
+                    </div>
+
+                    <h3>步骤 4：验证安装</h3>
+                    <div class="code-block">
+                        <pre><code>openclaw --version</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'openclaw --version')">📋</button>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>🍎 Apple Silicon (M1/M2/M3) 用户注意</h4>
+                        <p>如果你使用的是 Apple Silicon Mac，建议安装 Rosetta 2 以确保兼容性：</p>
+                        <div class="code-block">
+                            <pre><code>softwareupdate --install-rosetta --agree-to-license</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Linux Installation -->
+                <section id="linux" class="content-section">
+                    <h2>Linux 安装</h2>
+                    
+                    <p>Linux 是运行 OpenClaw 的理想平台，特别适合服务器部署。</p>
+
+                    <h3>Ubuntu/Debian</h3>
+                    <div class="code-block">
+                        <pre><code># 更新系统
+sudo apt update && sudo apt upgrade -y
+
+# 安装 Node.js
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# 验证 Node.js 安装
+node --version  # 应显示 v20.x.x
+npm --version
+
+# 安装 OpenClaw CLI
+sudo npm install -g @openclaw/cli</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'sudo npm install -g @openclaw/cli')">📋</button>
+                    </div>
+
+                    <h3>CentOS/RHEL/Fedora</h3>
+                    <div class="code-block">
+                        <pre><code># 安装 Node.js
+sudo dnf module enable nodejs:20
+sudo dnf install -y nodejs npm
+
+# 或者使用 NodeSource
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+sudo yum install -y nodejs
+
+# 安装 OpenClaw CLI
+sudo npm install -g @openclaw/cli</code></pre>
+                    </div>
+
+                    <h3>Arch Linux</h3>
+                    <div class="code-block">
+                        <pre><code># 从 AUR 安装
+yay -S openclaw-cli
+
+# 或者使用 npm
+sudo npm install -g @openclaw/cli</code></pre>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>🔧 生产环境建议</h4>
+                        <ul>
+                            <li>使用 PM2 或 systemd 管理 OpenClaw 进程</li>
+                            <li>配置防火墙（ufw/firewalld）限制端口访问</li>
+                            <li>设置自动备份策略</li>
+                            <li>使用 Nginx 反向代理（如需 Web 访问）</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 4: Windows Installation -->
+                <section id="windows" class="content-section">
+                    <h2>Windows 安装</h2>
+                    
+                    <p>Windows 用户推荐使用 WSL2（Windows Subsystem for Linux）运行 OpenClaw，获得最佳兼容性。</p>
+
+                    <h3>方法 1：WSL2（推荐）</h3>
+                    
+                    <p>1. 启用 WSL2：</p>
+                    <div class="code-block">
+                        <pre><code># 以管理员身份运行 PowerShell
+wsl --install</code></pre>
+                    </div>
+
+                    <p>2. 安装 Ubuntu：</p>
+                    <div class="code-block">
+                        <pre><code>wsl --install -d Ubuntu-22.04</code></pre>
+                    </div>
+
+                    <p>3. 在 WSL2 中按照 Linux 安装步骤操作</p>
+
+                    <h3>方法 2：直接安装（Windows 10/11）</h3>
+                    
+                    <p>1. 下载并安装 Node.js：<a href="https://nodejs.org/" target="_blank">nodejs.org</a></p>
+                    
+                    <p>2. 打开 PowerShell 或 CMD，安装 OpenClaw：</p>
+                    <div class="code-block">
+                        <pre><code>npm install -g @openclaw/cli</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>⚠️ Windows 用户注意</h4>
+                        <p>某些技能可能依赖 Linux 特定的工具，在 Windows 原生环境下可能无法正常工作。强烈建议使用 WSL2。</p>
+                    </div>
+                </section>
+
+                <!-- Section 5: Docker Deployment -->
+                <section id="docker" class="content-section">
+                    <h2>Docker 部署</h2>
+                    
+                    <p>Docker 提供跨平台一致的运行环境，是最简单的部署方式之一。</p>
+
+                    <h3>前提条件</h3>
+                    <p>确保已安装 Docker 和 Docker Compose：</p>
+                    <div class="code-block">
+                        <pre><code># 验证 Docker 安装
+docker --version
+docker-compose --version</code></pre>
+                    </div>
+
+                    <h3>使用 Docker Compose 部署</h3>
+                    
+                    <p>1. 创建工作目录：</p>
+                    <div class="code-block">
+                        <pre><code>mkdir -p ~/openclaw && cd ~/openclaw</code></pre>
+                    </div>
+
+                    <p>2. 创建 docker-compose.yml：</p>
+                    <div class="code-block">
+                        <pre><code>version: '3.8'
+services:
+  openclaw:
+    image: openclaw/openclaw:latest
+    container_name: openclaw
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    environment:
+      - NODE_ENV=production
+      - OPENCLAW_API_KEY=${OPENCLAW_API_KEY}</code></pre>
+                    </div>
+
+                    <p>3. 启动服务：</p>
+                    <div class="code-block">
+                        <pre><code>docker-compose up -d</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'docker-compose up -d')">📋</button>
+                    </div>
+
+                    <p>4. 查看日志：</p>
+                    <div class="code-block">
+                        <pre><code>docker-compose logs -f</code></pre>
+                    </div>
+
+                    <h3>使用 Docker CLI</h3>
+                    <div class="code-block">
+                        <pre><code>docker run -d \
+  --name openclaw \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/config:/app/config \
+  -e NODE_ENV=production \
+  openclaw/openclaw:latest</code></pre>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>🐳 Docker 优势</h4>
+                        <ul>
+                            <li>环境隔离，避免依赖冲突</li>
+                            <li>一键部署，快速启动</li>
+                            <li>易于迁移和备份</li>
+                            <li>支持多平台（x86/ARM）</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 6: Initialization -->
+                <section id="init" class="content-section">
+                    <h2>初始化配置</h2>
+                    
+                    <p>安装完成后，需要进行初始化配置才能开始使用 OpenClaw。</p>
+
+                    <h3>步骤 1：运行初始化向导</h3>
+                    <div class="code-block">
+                        <pre><code>openclaw onboard</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this, 'openclaw onboard')">📋</button>
+                    </div>
+
+                    <p>向导会引导你完成以下配置：</p>
+                    <ul>
+                        <li>工作目录设置</li>
+                        <li>AI 模型配置（API Key）</li>
+                        <li>管理员账户创建</li>
+                        <li>基础技能安装</li>
+                    </ul>
+
+                    <h3>步骤 2：配置 AI 模型</h3>
+                    
+                    <p>OpenClaw 支持多种 AI 模型，你需要至少配置一个：</p>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>模型</th>
+                                    <th>提供商</th>
+                                    <th>特点</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Claude 3.5 Sonnet</td>
+                                    <td>Anthropic</td>
+                                    <td class="highlight">推荐，能力强，推理优秀</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-4o</td>
+                                    <td>OpenAI</td>
+                                    <td class="highlight">速度快，功能全面</td>
+                                </tr>
+                                <tr>
+                                    <td>Gemini Pro</td>
+                                    <td>Google</td>
+                                    <td>多模态，性价比高</td>
+                                </tr>
+                                <tr>
+                                    <td>本地模型</td>
+                                    <td>Ollama/LM Studio</td>
+                                    <td>隐私优先，零 API 费用</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>步骤 3：启动 OpenClaw</h3>
+                    <div class="code-block">
+                        <pre><code># 开发模式（带热重载）
+openclaw dev
+
+# 生产模式
+openclaw start
+
+# 后台运行
+openclaw start --daemon</code></pre>
+                    </div>
+
+                    <h3>步骤 4：访问 Dashboard</h3>
+                    
+                    <p>启动成功后，打开浏览器访问：</p>
+                    <div class="code-block">
+                        <pre><code>http://localhost:3000</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>🔑 获取 API Key</h4>
+                        <p>各平台 API Key 获取地址：</p>
+                        <ul>
+                            <li>Anthropic (Claude): <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></li>
+                            <li>OpenAI (GPT): <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a></li>
+                            <li>Google (Gemini): <a href="https://makersuite.google.com/app/apikey" target="_blank">makersuite.google.com</a></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 7: Next Steps -->
+                <section id="next" class="content-section">
+                    <h2>下一步</h2>
+                    
+                    <p>恭喜！你已经成功安装并启动了 OpenClaw。</p>
+
+                    <div class="checklist">
+                        <h3>✅ 本日完成清单</h3>
+                        
+                        <ul>
+                            <li><input type="checkbox" checked> 了解系统要求</li>
+                            <li><input type="checkbox" checked> 完成 OpenClaw 安装</li>
+                            <li><input type="checkbox" checked> 运行初始化向导</li>
+                            <li><input type="checkbox" checked> 配置 AI 模型</li>
+                            <li><input type="checkbox" checked> 成功启动 OpenClaw</li>
+                        </ul>
+                    </div>
+
+                    <div class="next-day-preview">
+                        <h3>🚀 明天预告：Day 3 - 平台接入</h3>
+                        
+                        <p>明天我们将学习如何将 OpenClaw 接入各种通讯平台：</p>
+                        
+                        <ul>
+                            <li>配置 Telegram Bot</li>
+                            <li>接入飞书机器人</li>
+                            <li>钉钉机器人设置</li>
+                            <li>Discord Bot 配置</li>
+                        </ul>
+
+                        <a href="day3.html" class="btn btn-primary btn-lg">
+                            继续 Day 3
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Navigation Footer -->
+                <footer class="day-footer">
+                    <div class="day-nav-footer">
+                        <a href="day1.html" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                            上一章：初识 OpenClaw
+                        </a>
+                        <a href="day3.html" class="btn btn-secondary">
+                            下一章：平台接入
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                        </a>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.section-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy to clipboard
+        function copyToClipboard(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '✓';
+                btn.style.color = 'var(--accent-success)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

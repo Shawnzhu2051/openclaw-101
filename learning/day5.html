@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5: 记忆与个性化 - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="learning.css">
+</head>
+<body class="learning-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#learning-path" class="nav-link">← 返回学习路径</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="day-hero">
+        <div class="container">
+            <div class="day-badge">Day 05</div>
+            <h1>记忆与个性化</h1>
+            <p class="day-desc">配置 MEMORY.md 和 AGENTS.md，让 AI 记住你的偏好。设置个性化的人格和工作模式。</p>
+            
+            <div class="day-meta">
+                <span>⏱️ 预计学习时间：45 分钟</span>
+                <span>📚 5 个章节</span>
+                <span>🎯 中级</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="learning-content container">
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 70%"></div>
+            <span>7天学习路径 - 第 5/7 天</span>
+        </div>
+
+        <!-- Sidebar + Main -->
+        <div class="content-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="content-sidebar">
+                <nav class="section-nav">
+                    <h3>本日内容</h3>
+                    <ul>
+                        <li><a href="#overview" class="active">记忆系统概览</a></li>
+                        <li><a href="#memory">MEMORY.md 配置</a></li>
+                        <li><a href="#agents">AGENTS.md 配置</a></li>
+                        <li><a href="#personality">人格配置</a></li>
+                        <li><a href="#workflow">工作模式</a></li>
+                        <li><a href="#next">下一步</a></li>
+                    </ul>
+                    
+                    <h3>学习路径</h3>
+                    <ul class="day-nav">
+                        <li><a href="day1.html">Day 1: 初识 OpenClaw</a></li>
+                        <li><a href="day2.html">Day 2: 环境搭建</a></li>
+                        <li><a href="day3.html">Day 3: 平台接入</a></li>
+                        <li><a href="day4.html">Day 4: 技能探索</a></li>
+                        <li class="current">Day 5: 记忆与个性化</li>
+                        <li><a href="day6.html">Day 6: 技能开发</a></li>
+                        <li><a href="day7.html">Day 7: 进阶与生产</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content-main">
+                <!-- Section 1: Overview -->
+                <section id="overview" class="content-section">
+                    <h2>记忆系统概览</h2>
+                    
+                    <p>OpenClaw 的记忆系统让 AI 能够记住你的偏好、习惯和重要信息，提供真正个性化的体验。</p>
+                    
+                    <div class="highlight-box">
+                        <h4>🧠 记忆的类型</h4>
+                        <ul>
+                            <li><strong>事实记忆</strong> - 你的基本信息、偏好设置、常用工具</li>
+                            <li><strong>情景记忆</strong> - 对话历史、之前的任务、决策记录</li>
+                            <li><strong>程序记忆</strong> - 你的工作流程、常用命令、习惯模式</li>
+                            <li><strong>语义记忆>/strong> - 你关心的主题、专业知识领域、项目背景</li>
+                        </ul>
+                    </div>
+
+                    <h3>记忆系统架构</h3>
+                    
+                    <div class="architecture-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-title">用户输入</div>
+                            <div class="arch-items">
+                                <span class="arch-item">对话</span>
+                                <span class="arch-item">文件</span>
+                                <span class="arch-item">命令</span>
+                            </div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer highlight">
+                            <div class="arch-title">记忆处理器</div>
+                            <div class="arch-desc">提取、分类、存储重要信息</div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer">
+                            <div class="arch-title">存储层</div>
+                            <div class="arch-items">
+                                <span class="arch-item">MEMORY.md</span>
+                                <span class="arch-item">向量数据库</span>
+                                <span class="arch-item">对话历史</span>
+                            </div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer highlight">
+                            <div class="arch-title">上下文增强</div>
+                            <div class="arch-desc">检索相关记忆，增强 AI 回复</div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>💡 记忆 vs 上下文</h4>
+                        <p><strong>上下文（Context）</strong>是当前对话的短期记忆，有长度限制；<strong>记忆（Memory）</strong>是长期存储的信息，可以跨会话保持。OpenClaw 会自动管理两者，让 AI 既有"眼前"的上下文，又有"过去"的记忆。</p>
+                    </div>
+                </section>
+
+                <!-- Section 2: MEMORY.md -->
+                <section id="memory" class="content-section">
+                    <h2>MEMORY.md 配置</h2>
+                    
+                    <p>MEMORY.md 是 OpenClaw 的核心记忆文件，存储 AI 关于你的长期记忆。</p>
+
+                    <h3>文件位置</h3>
+                    <div class="code-block">
+                        <pre><code>~/.openclaw/workspace/MEMORY.md</code></pre>
+                    </div>
+
+                    <h3>基础结构</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 关于我
+
+## 基本信息
+- 名字：张三
+- 职业：软件工程师
+- 所在地：北京
+- 时区：Asia/Shanghai
+
+## 技术栈
+- 主要语言：Python, TypeScript
+- 框架：React, Node.js, FastAPI
+- 工具：VS Code, Docker, Git
+
+## 偏好
+- 代码风格：PEP 8, 2空格缩进
+- 沟通方式：简洁直接
+- 工作时间：9:00 - 18:00
+
+## 重要信息
+- 当前项目：开发一个电商平台
+- 学习目标：掌握 Kubernetes
+- 常用服务：AWS, Vercel</code></pre>
+                    </div>
+
+                    <h3>高级用法</h3>
+                    
+                    <p>MEMORY.md 支持 Markdown 格式，可以组织更复杂的结构：</p>
+                    
+                    <div class="code-block">
+                        <pre><code># 记忆库
+
+## 项目记忆
+
+### 项目 A - 电商平台
+- 技术栈：Next.js + Prisma + PostgreSQL
+- 状态：开发中
+- 截止日期：2026-06-01
+- 重要决策：使用 Stripe 支付
+
+### 项目 B - 个人博客
+- 技术栈：Hugo
+- 状态：维护中
+- 域名：blog.example.com
+
+## 人际关系
+
+### 同事
+- 李四 - 前端负责人，擅长 React
+- 王五 - 产品经理，喜欢详细文档
+
+## 学习记录
+
+### 已掌握
+- [x] Docker 基础
+- [x] React Hooks
+
+### 学习中
+- [ ] Kubernetes
+- [ ] GraphQL
+
+## 习惯模式
+- 每天早上检查邮件和 Slack
+- 代码提交前必写测试
+- 周五下午做技术调研</code></pre>
+                    </div>
+
+                    <h3>自动更新</h3>
+                    
+                    <p>OpenClaw 可以自动从对话中提取重要信息并更新 MEMORY.md：</p>
+                    
+                    <div class="code-block">
+                        <pre><code># 启用自动记忆
+openclaw config memory.autoUpdate=true
+
+# 设置记忆提取频率
+openclaw config memory.updateInterval=10  # 每10条消息</code></pre>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>📝 最佳实践</h4>
+                        <ul>
+                            <li>保持结构清晰，使用标题层级组织</li>
+                            <li>定期审查和清理过时信息</li>
+                            <li>敏感信息（密码、密钥）不要存入 MEMORY.md</li>
+                            <li>使用任务列表跟踪学习进度</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 3: AGENTS.md -->
+                <section id="agents" class="content-section">
+                    <h2>AGENTS.md 配置</h2>
+                    
+                    <p>AGENTS.md 定义了 AI 助手的人格、行为模式和工作方式。</p>
+
+                    <h3>文件位置</h3>
+                    <div class="code-block">
+                        <pre><code>~/.openclaw/workspace/AGENTS.md</code></pre>
+                    </div>
+
+                    <h3>基础配置</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># Agent 配置
+
+## 身份
+你是 OpenClaw，一个专业的 AI 助手。你的任务是帮助用户高效完成工作。
+
+## 性格特质
+- 专业但不失友好
+- 简洁但完整
+- 主动但尊重边界
+
+## 工作方式
+1. 先理解用户意图，再给出解决方案
+2. 提供多个选项时说明优缺点
+3. 不确定时主动询问，不猜测
+4. 代码相关任务优先提供可运行示例
+
+## 沟通风格
+- 使用中文回复
+- 技术术语保持英文
+- 重要信息使用加粗
+- 代码块标注语言类型
+
+## 限制
+- 不执行可能损害系统的命令
+- 不访问敏感文件（.ssh, .aws 等）
+- 不确定时请求确认</code></pre>
+                    </div>
+
+                    <h3>多 Agent 配置</h3>
+                    
+                    <p>你可以配置多个 Agent，用于不同场景：</p>
+                    
+                    <div class="code-block">
+                        <pre><code># 默认 Agent
+## 通用助手
+- 平衡全面，适合日常任务
+
+---
+
+# 代码专家
+## 身份
+你是资深软件工程师，专注于代码质量和最佳实践。
+
+## 专长
+- 代码审查和重构
+- 架构设计建议
+- 性能优化
+- 调试排错
+
+## 工作方式
+- 审查代码时关注：可读性、性能、安全性
+- 提供具体改进建议，不只是指出问题
+- 解释"为什么"，不只是"怎么做"
+
+---
+
+# 写作助手
+## 身份
+你是专业写作者，帮助用户提升文字质量。
+
+## 专长
+- 文案润色
+- 结构优化
+- 语法检查
+- 风格调整
+
+## 工作方式
+- 先理解目标受众和目的
+- 保持用户原有风格，只做必要调整
+- 解释修改原因，帮助用户学习</code></pre>
+                    </div>
+
+                    <h3>切换 Agent</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 命令行切换
+openclaw agent switch code-expert
+
+# 对话中切换
+/agent code-expert
+
+# 查看可用 Agent
+openclaw agent list</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>🎭 Agent 设计建议</h4>
+                        <ul>
+                            <li>明确定义 Agent 的身份和专长</li>
+                            <li>描述具体的工作方式，而非抽象特质</li>
+                            <li>包含明确的限制和边界</li>
+                            <li>定期根据使用效果调整配置</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 4: Personality -->
+                <section id="personality" class="content-section">
+                    <h2>人格配置</h2>
+                    
+                    <p>通过细致的人格配置，让 AI 助手更符合你的期望。</p>
+
+                    <h3>人格维度</h3>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>描述</th>
+                                    <th>示例</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>正式程度</td>
+                                    <td>从随意到正式</td>
+                                    <td>"嘿" vs "您好"</td>
+                                </tr>
+                                <tr>
+                                    <td>详细程度</td>
+                                    <td>从简洁到详尽</td>
+                                    <td>一句话 vs 详细解释</td>
+                                </tr>
+                                <tr>
+                                    <td>主动程度</td>
+                                    <td>从被动到主动</td>
+                                    <td>等待指令 vs 主动建议</td>
+                                </tr>
+                                <tr>
+                                    <td>创意程度</td>
+                                    <td>从保守到创新</td>
+                                    <td>标准方案 vs 创新思路</td>
+                                </tr>
+                                <tr>
+                                    <td>幽默程度</td>
+                                    <td>从严肃到幽默</td>
+                                    <td>专业严谨 vs 轻松活泼</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>人格配置示例</h3>
+                    
+                    <div class="code-block">
+                        <pre><code>## 人格配置
+
+### 沟通风格
+- 正式程度：中等（工作场景正式，闲聊时轻松）
+- 详细程度：根据问题复杂度调整
+- 使用 emoji：适度使用，增加亲和力
+
+### 行为特征
+- 主动性：中等（必要时主动建议，不打扰）
+- 确认习惯：重要操作前确认
+- 错误处理：承认错误，提供解决方案
+
+### 专业领域
+- 强项：软件开发、系统设计、技术写作
+- 弱项：创意写作、艺术设计
+- 遇到弱项：诚实说明，提供替代建议
+
+### 价值观
+- 代码质量优先于速度
+- 安全性不可妥协
+- 用户隐私至上</code></pre>
+                    </div>
+
+                    <h3>场景化人格</h3>
+                    
+                    <p>针对不同场景配置不同人格：</p>
+                    
+                    <div class="usecase-grid">
+                        <div class="usecase-card">
+                            <div class="usecase-icon">💼</div>
+                            <h4>工作模式</h4>
+                            <ul>
+                                <li>专业、高效</li>
+                                <li>结构化输出</li>
+                                <li>注重细节</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">📚</div>
+                            <h4>学习模式</h4>
+                            <ul>
+                                <li>耐心、鼓励</li>
+                                <li>循序渐进</li>
+                                <li>多举例子</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">🔧</div>
+                            <h4>调试模式</h4>
+                            <ul>
+                                <li>系统化排查</li>
+                                <li>假设验证</li>
+                                <li>记录过程</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">☕</div>
+                            <h4>闲聊模式</h4>
+                            <ul>
+                                <li>轻松、幽默</li>
+                                <li>开放话题</li>
+                                <li>分享趣闻</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Workflow -->
+                <section id="workflow" class="content-section">
+                    <h2>工作模式</h2>
+                    
+                    <p>配置 AI 的工作模式，优化特定任务的执行效率。</p>
+
+                    <h3>代码审查模式</h3>
+                    
+                    <div class="code-block">
+                        <pre><code>## 代码审查工作流
+
+### 审查清单
+- [ ] 代码可读性（命名、注释、结构）
+- [ ] 功能正确性（逻辑、边界条件）
+- [ ] 性能影响（复杂度、资源使用）
+- [ ] 安全性（注入、越界、敏感信息）
+- [ ] 测试覆盖（单元测试、边界测试）
+
+### 输出格式
+1. **总体评价** - 代码质量评分（1-10）
+2. **优点** - 做得好的地方
+3. **改进建议** - 具体问题和修复方案
+4. **示例代码** - 改进后的代码示例</code></pre>
+                    </div>
+
+                    <h3>项目管理模式</h3>
+                    
+                    <div class="code-block">
+                        <pre><code>## 项目管理工作流
+
+### 任务处理流程
+1. 理解任务背景和目标
+2. 分解为可执行步骤
+3. 识别依赖和阻塞点
+4. 估算时间和资源
+5. 提供执行建议
+
+### 跟踪模板
+- 任务：
+- 优先级：高/中/低
+- 预估时间：
+- 依赖：
+- 状态：待开始/进行中/阻塞/完成</code></pre>
+                    </div>
+
+                    <h3>学习辅导模式</h3>
+                    
+                    <div class="code-block">
+                        <pre><code>## 学习辅导工作流
+
+### 教学原则
+- 从已知到未知，建立联系
+- 理论与实践结合
+- 鼓励提问和思考
+- 及时反馈和纠正
+
+### 解释结构
+1. **概念定义** - 是什么
+2. **为什么重要** - 应用场景
+3. **如何工作** - 原理机制
+4. **实践示例** - 动手尝试
+5. **常见误区** - 避坑指南
+6. **延伸学习** - 进阶资源</code></pre>
+                    </div>
+
+                    <h3>快捷切换</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 设置快捷命令
+openclaw alias code-review="mode code-review"
+openclaw alias learn="mode learning"
+openclaw alias pm="mode project-management"
+
+# 对话中快速切换
+/mode code-review
+/mode learning</code></pre>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>🔄 工作流自动化</h4>
+                        <p>结合心跳（Heartbeat）和定时任务，可以实现工作流自动化：</p>
+                        <ul>
+                            <li>每天早上自动进入"日报模式"，总结昨日工作</li>
+                            <li>代码提交前自动进入"审查模式"检查代码</li>
+                            <li>每周五进入"回顾模式"，总结本周成果</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 6: Next Steps -->
+                <section id="next" class="content-section">
+                    <h2>下一步</h2>
+                    
+                    <p>恭喜！你已经掌握了 OpenClaw 的个性化配置。</p>
+
+                    <div class="checklist">
+                        <h3>✅ 本日完成清单</h3>
+                        
+                        <ul>
+                            <li><input type="checkbox" checked> 理解记忆系统架构</li>
+                            <li><input type="checkbox" checked> 创建并配置 MEMORY.md</li>
+                            <li><input type="checkbox" checked> 创建并配置 AGENTS.md</li>
+                            <li><input type="checkbox" checked> 设计个性化人格</li>
+                            <li><input type="checkbox" checked> 配置至少一种工作模式</li>
+                        </ul>
+                    </div>
+
+                    <div class="next-day-preview">
+                        <h3>🚀 明天预告：Day 6 - 技能开发</h3>
+                        
+                        <p>明天我们将学习如何开发自己的技能：</p>
+                        
+                        <ul>
+                            <li>理解 SKILL.md 规范</li>
+                            <li>开发第一个自定义技能</li>
+                            <li>工具调用和 API 集成</li>
+                            <li>错误处理和日志</li>
+                        </ul>
+
+                        <a href="day6.html" class="btn btn-primary btn-lg">
+                            继续 Day 6
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Navigation Footer -->
+                <footer class="day-footer">
+                    <div class="day-nav-footer">
+                        <a href="day4.html" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                            上一章：技能探索
+                        </a>
+                        <a href="day6.html" class="btn btn-secondary">
+                            下一章：技能开发
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                        </a>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.section-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy to clipboard
+        function copyToClipboard(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '✓';
+                btn.style.color = 'var(--accent-success)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

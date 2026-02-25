@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7: 进阶与生产 - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="learning.css">
+</head>
+<body class="learning-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#learning-path" class="nav-link">← 返回学习路径</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="day-hero">
+        <div class="container">
+            <div class="day-badge">Day 07</div>
+            <h1>进阶与生产</h1>
+            <p class="day-desc">多 Agent 编排、安全加固、监控告警、备份恢复。将 OpenClaw 部署到生产环境的最佳实践。</p>
+            
+            <div class="day-meta">
+                <span>⏱️ 预计学习时间：75 分钟</span>
+                <span>📚 6 个章节</span>
+                <span>🎯 高级</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="learning-content container">
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%"></div>
+            <span>7天学习路径 - 第 7/7 天 🎉</span>
+        </div>
+
+        <!-- Sidebar + Main -->
+        <div class="content-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="content-sidebar">
+                <nav class="section-nav">
+                    <h3>本日内容</h3>
+                    <ul>
+                        <li><a href="#multi-agent" class="active">多 Agent 编排</a></li>
+                        <li><a href="#security">安全加固</a></li>
+                        <li><a href="#monitoring">监控与告警</a></li>
+                        <li><a href="#backup">备份与恢复</a></li>
+                        <li><a href="#performance">性能优化</a></li>
+                        <li><a href="#completion">学习完成</a></li>
+                    </ul>
+                    
+                    <h3>学习路径</h3>
+                    <ul class="day-nav">
+                        <li><a href="day1.html">Day 1: 初识 OpenClaw</a></li>
+                        <li><a href="day2.html">Day 2: 环境搭建</a></li>
+                        <li><a href="day3.html">Day 3: 平台接入</a></li>
+                        <li><a href="day4.html">Day 4: 技能探索</a></li>
+                        <li><a href="day5.html">Day 5: 记忆与个性化</a></li>
+                        <li><a href="day6.html">Day 6: 技能开发</a></li>
+                        <li class="current">Day 7: 进阶与生产</li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content-main">
+                <!-- Section 1: Multi-Agent -->
+                <section id="multi-agent" class="content-section">
+                    <h2>多 Agent 编排</h2>
+                    
+                    <p>多 Agent 系统让不同的 AI 代理各司其职，协同完成复杂任务。</p>
+                    
+                    <div class="highlight-box">
+                        <h4>🤖 为什么需要多 Agent？</h4>
+                        <ul>
+                            <li><strong>专业化</strong> - 每个 Agent 专注于特定领域</li>
+                            <li><strong>并行处理</strong> - 多个任务同时执行</li>
+                            <li><strong>成本优化</strong> - 简单任务使用便宜模型</li>
+                            <li><strong>故障隔离</strong> - 单个 Agent 失败不影响整体</li>
+                        </ul>
+                    </div>
+
+                    <h3>多 Agent 架构</h3>
+                    
+                    <div class="architecture-diagram">
+                        <div class="arch-layer">
+                            <div class="arch-title">协调 Agent</div>
+                            <div class="arch-desc">任务分解和调度</div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer">
+                            <div class="arch-items">
+                                <span class="arch-item">代码 Agent</span>
+                                <span class="arch-item">研究 Agent</span>
+                                <span class="arch-item">写作 Agent</span>
+                                <span class="arch-item">数据 Agent</span>
+                            </div>
+                        </div>
+                        
+                        <div class="arch-arrow">↓</div>
+                        
+                        <div class="arch-layer highlight">
+                            <div class="arch-title">结果整合</div>
+                            <div class="arch-desc">汇总输出</div>
+                        </div>
+                    </div>
+
+                    <h3>配置多 Agent</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># AGENTS.md
+
+## 协调者
+- **模型**: claude-3-opus
+- **职责**: 理解用户需求，分解任务，分配给专业 Agent
+- **工作流**:
+  1. 分析用户请求
+  2. 确定需要的专业领域
+  3. 调用相应 Agent
+  4. 整合结果
+
+---
+
+## 代码专家
+- **模型**: claude-3-sonnet
+- **职责**: 编程相关任务
+- **专长**: 代码生成、审查、调试
+- **工具**: code-execution, git, file-system
+
+---
+
+## 研究员
+- **模型**: gpt-4o-mini
+- **职责**: 信息检索和分析
+- **专长**: 网络搜索、数据分析、文献综述
+- **工具**: web-search, calculator, data-analysis
+
+---
+
+## 写作助手
+- **模型**: claude-3-haiku
+- **职责**: 文本创作和润色
+- **专长**: 文案写作、翻译、校对
+- **工具**: dictionary, grammar-check</code></pre>
+                    </div>
+
+                    <h3>Agent 通信</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 在对话中调用特定 Agent
+@code-expert 帮我审查这段代码
+@researcher 查找最新的 React 最佳实践
+@writer 把这段文字改得更专业
+
+# Agent 间协作
+@coordinator 我需要开发一个新功能，包括前端和后端
+# 协调者会分配任务给代码专家和其他 Agent</code></pre>
+                    </div>
+
+                    <h3>模型路由策略</h3>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>任务类型</th>
+                                    <th>推荐模型</th>
+                                    <th>原因</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>简单问答</td>
+                                    <td>gpt-4o-mini</td>
+                                    <td>成本低，速度快</td>
+                                </tr>
+                                <tr>
+                                    <td>代码生成</td>
+                                    <td>claude-3-sonnet</td>
+                                    <td>代码能力强</td>
+                                </tr>
+                                <tr>
+                                    <td>复杂推理</td>
+                                    <td>claude-3-opus</td>
+                                    <td>推理能力最强</td>
+                                </tr>
+                                <tr>
+                                    <td>创意写作</td>
+                                    <td>gpt-4o</td>
+                                    <td>创意和流畅度好</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 2: Security -->
+                <section id="security" class="content-section">
+                    <h2>安全加固</h2>
+                    
+                    <p>生产环境的安全配置是保护数据和系统的关键。</p>
+
+                    <div class="highlight-box">
+                        <h4>⚠️ 安全威胁</h4>
+                        <ul>
+                            <li>恶意技能执行危险命令</li>
+                            <li>API Key 泄露</li>
+                            <li>未授权访问</li>
+                            <li>数据泄露</li>
+                            <li>提示词注入攻击</li>
+                        </ul>
+                    </div>
+
+                    <h3>网络安全</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 配置防火墙（ufw）
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow 3000/tcp  # OpenClaw 端口
+sudo ufw enable
+
+# 或者使用 iptables
+sudo iptables -A INPUT -p tcp --dport 3000 -s 127.0.0.1 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 3000 -j DROP</code></pre>
+                    </div>
+
+                    <h3>使用 HTTPS</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 使用 Nginx 反向代理 + SSL
+server {
+    listen 443 ssl http2;
+    server_name openclaw.yourdomain.com;
+
+    ssl_certificate /path/to/cert.pem;
+    ssl_certificate_key /path/to/key.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+# 自动重定向 HTTP 到 HTTPS
+server {
+    listen 80;
+    server_name openclaw.yourdomain.com;
+    return 301 https://$server_name$request_uri;
+}</code></pre>
+                    </div>
+
+                    <h3>技能沙箱</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 启用技能沙箱
+openclaw config security.sandbox=true
+
+# 配置沙箱限制
+openclaw config security.sandboxOptions='{
+  "maxMemory": "512m",
+  "maxCpu": "0.5",
+  "network": "none",
+  "readOnly": ["/etc", "/usr"],
+  "writable": ["/tmp", "/var/tmp"]
+}'
+
+# 高风险权限需要确认
+openclaw config security.confirmDangerous=true</code></pre>
+                    </div>
+
+                    <h3>API Key 管理</h3>
+                    
+                    <div class="component-list">
+                        <div class="component-item">
+                            <h4>🔐 使用环境变量</h4>
+                            <div class="code-block">
+                                <pre><code># ~/.bashrc 或 ~/.zshrc
+export OPENAI_API_KEY="sk-..."
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# 或者使用 .env 文件
+# ~/.openclaw/.env
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>🛡️ 使用密钥管理工具</h4>
+                            <div class="code-block">
+                                <pre><code># 使用 pass（密码管理器）
+export OPENAI_API_KEY=$(pass api/openai)
+
+# 使用 Vault
+vault kv get -field=api_key secret/openai</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>安全审计清单</h3>
+                    
+                    <div class="checklist">
+                        <ul>
+                            <li><input type="checkbox"> 使用强密码保护 Dashboard</li>
+                            <li><input type="checkbox"> 启用 HTTPS</li>
+                            <li><input type="checkbox"> 配置防火墙</li>
+                            <li><input type="checkbox"> 启用技能沙箱</li>
+                            <li><input type="checkbox"> 定期更新 OpenClaw 和技能</li>
+                            <li><input type="checkbox"> 审查已安装技能的权限</li>
+                            <li><input type="checkbox"> 启用访问日志</li>
+                            <li><input type="checkbox"> 配置自动备份</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 3: Monitoring -->
+                <section id="monitoring" class="content-section">
+                    <h2>监控与告警</h2>
+                    
+                    <p>完善的监控体系帮助你及时发现问题，保障服务稳定运行。</p>
+
+                    <h3>使用 Prometheus + Grafana</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># docker-compose.yml
+version: '3.8'
+services:
+  openclaw:
+    image: openclaw/openclaw:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - METRICS_ENABLED=true
+      - METRICS_PORT=9090
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:</code></pre>
+                    </div>
+
+                    <h3>关键指标</h3>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>指标</th>
+                                    <th>说明</th>
+                                    <th>告警阈值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>请求延迟</td>
+                                    <td>API 响应时间</td>
+                                    <td>> 5s</td>
+                                </tr>
+                                <tr>
+                                    <td>错误率</td>
+                                    <td>失败请求比例</td>
+                                    <td>> 5%</td>
+                                </tr>
+                                <tr>
+                                    <td>内存使用</td>
+                                    <td>内存占用</td>
+                                    <td>> 80%</td>
+                                </tr>
+                                <tr>
+                                    <td>磁盘空间</td>
+                                    <td>存储使用</td>
+                                    <td>> 85%</td>
+                                </tr>
+                                <tr>
+                                    <td>API 调用量</td>
+                                    <td>LLM API 调用次数</td>
+                                    <td>异常激增</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>日志管理</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 配置日志级别
+openclaw config log.level=info
+openclaw config log.format=json
+openclaw config log.output=/var/log/openclaw/app.log
+
+# 日志轮转
+# /etc/logrotate.d/openclaw
+/var/log/openclaw/*.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0644 openclaw openclaw
+}</code></pre>
+                    </div>
+
+                    <h3>健康检查</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 配置健康检查端点
+curl http://localhost:3000/health
+
+# 返回示例
+{
+  "status": "healthy",
+  "timestamp": "2026-02-25T10:30:00Z",
+  "version": "1.0.0",
+  "checks": {
+    "database": "ok",
+    "memory": "ok",
+    "disk": "ok"
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📱 告警通知</h4>
+                        <p>配置告警通知渠道：</p>
+                        <ul>
+                            <li>邮件告警</li>
+                            <li>Slack/Discord 通知</li>
+                            <li>PagerDuty/OpsGenie 集成</li>
+                            <li>Webhook 自定义通知</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 4: Backup -->
+                <section id="backup" class="content-section">
+                    <h2>备份与恢复</h2>
+                    
+                    <p>定期备份是防止数据丢失的最后防线。</p>
+
+                    <h3>需要备份的内容</h3>
+                    
+                    <div class="capability-grid">
+                        <div class="capability-card">
+                            <div class="cap-icon">📝</div>
+                            <h4>配置文件</h4>
+                            <p>~/.openclaw/config.json</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🧠</div>
+                            <h4>记忆文件</h4>
+                            <p>MEMORY.md, AGENTS.md</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">🛠️</div>
+                            <h4>自定义技能</h4>
+                            <p>~/.openclaw/skills/custom/</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="cap-icon">💾</div>
+                            <h4>数据文件</h4>
+                            <p>数据库、日志、缓存</p>
+                        </div>
+                    </div>
+
+                    <h3>备份脚本</h3>
+                    
+                    <div class="code-block">
+                        <pre><code>#!/bin/bash
+# backup-openclaw.sh
+
+BACKUP_DIR="/backup/openclaw"
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/openclaw_backup_$DATE.tar.gz"
+
+# 创建备份目录
+mkdir -p $BACKUP_DIR
+
+# 备份 OpenClaw 数据
+tar -czf $BACKUP_FILE \
+  ~/.openclaw/config.json \
+  ~/.openclaw/workspace/MEMORY.md \
+  ~/.openclaw/workspace/AGENTS.md \
+  ~/.openclaw/skills/custom \
+  ~/.openclaw/data
+
+# 保留最近 30 天的备份
+find $BACKUP_DIR -name "openclaw_backup_*.tar.gz" -mtime +30 -delete
+
+echo "备份完成: $BACKUP_FILE"</code></pre>
+                    </div>
+
+                    <h3>自动备份（Cron）</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 编辑 crontab
+crontab -e
+
+# 每天凌晨 2 点备份
+0 2 * * * /path/to/backup-openclaw.sh
+
+# 每周日备份到远程
+0 3 * * 0 /path/to/backup-openclaw.sh && rsync -avz /backup/openclaw user@remote:/backups/</code></pre>
+                    </div>
+
+                    <h3>云备份</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># AWS S3 备份
+aws s3 sync /backup/openclaw s3://your-backup-bucket/openclaw/
+
+# 使用 rclone（支持多种云存储）
+rclone sync /backup/openclaw remote:backup/openclaw
+
+# 加密备份
+# 使用 restic 进行加密增量备份
+restic -r s3:s3.amazonaws.com/bucket backup ~/.openclaw</code></pre>
+                    </div>
+
+                    <h3>恢复流程</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 1. 停止 OpenClaw
+openclaw stop
+
+# 2. 解压备份
+tar -xzf openclaw_backup_20260225_020000.tar.gz -C /
+
+# 3. 检查配置文件
+openclaw config validate
+
+# 4. 重启 OpenClaw
+openclaw start
+
+# 5. 验证恢复
+openclaw status
+curl http://localhost:3000/health</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 5: Performance -->
+                <section id="performance" class="content-section">
+                    <h2>性能优化</h2>
+                    
+                    <p>优化 OpenClaw 的性能，提升响应速度和降低资源消耗。</p>
+
+                    <h3>模型优化</h3>
+                    
+                    <div class="component-list">
+                        <div class="component-item">
+                            <h4>🎯 模型路由</h4>
+                            <div class="code-block">
+                                <pre><code># 根据任务复杂度选择模型
+{
+  "modelRouting": {
+    "simple": "gpt-4o-mini",
+    "standard": "claude-3-sonnet",
+    "complex": "claude-3-opus"
+  },
+  "routingRules": {
+    "keywords": {
+      "code": "standard",
+      "debug": "complex",
+      "hello": "simple"
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="component-item">
+                            <h4>💾 响应缓存</h4>
+                            <div class="code-block">
+                                <pre><code># 启用缓存
+openclaw config cache.enabled=true
+openclaw config cache.ttl=3600  # 1小时
+
+# 缓存相似查询
+openclaw config cache.similarity=0.9</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>资源限制</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># Docker 资源限制
+docker run -d \
+  --name openclaw \
+  --memory=2g \
+  --memory-swap=2g \
+  --cpus=2 \
+  -p 3000:3000 \
+  openclaw/openclaw:latest
+
+# systemd 资源限制
+# /etc/systemd/system/openclaw.service
+[Service]
+MemoryMax=2G
+CPUQuota=200%
+TasksMax=100</code></pre>
+                    </div>
+
+                    <h3>连接池优化</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 数据库连接池
+openclaw config database.poolSize=10
+openclaw config database.maxConnections=50
+
+# HTTP 连接池
+openclaw config http.maxSockets=20
+openclaw config http.keepAlive=true</code></pre>
+                    </div>
+
+                    <h3>性能监控</h3>
+                    
+                    <div class="code-block">
+                        <pre><code># 查看性能指标
+openclaw stats
+
+# 输出示例
+{
+  "uptime": "5d 3h 20m",
+  "memory": {
+    "used": "512MB",
+    "total": "2GB",
+    "percentage": 25
+  },
+  "requests": {
+    "total": 15234,
+    "perMinute": 12,
+    "avgLatency": "1.2s"
+  },
+  "models": {
+    "gpt-4o-mini": { "calls": 8000, "cost": "$0.50" },
+    "claude-3-sonnet": { "calls": 2000, "cost": "$4.00" }
+  }
+}</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 6: Completion -->
+                <section id="completion" class="content-section">
+                    <h2>🎉 学习完成</h2>
+                    
+                    <p>恭喜你完成了 OpenClaw 101 的 7 天学习之旅！</p>
+
+                    <div class="highlight-box">
+                        <h4>✅ 你已掌握的技能</h4>
+                        
+                        <div class="checklist">
+                            <ul>
+                                <li><input type="checkbox" checked> OpenClaw 核心概念和架构</li>
+                                <li><input type="checkbox" checked> 多平台安装部署</li>
+                                <li><input type="checkbox" checked> 通讯平台接入</li>
+                                <li><input type="checkbox" checked> 技能安装和管理</li>
+                                <li><input type="checkbox" checked> 记忆和个性化配置</li>
+                                <li><input type="checkbox" checked> 自定义技能开发</li>
+                                <li><input type="checkbox" checked> 生产环境部署</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>继续学习</h3>
+                    
+                    <div class="usecase-grid">
+                        <div class="usecase-card">
+                            <div class="usecase-icon">📚</div>
+                            <h4>官方文档</h4>
+                            <ul>
+                                <li><a href="https://docs.openclaw.ai" target="_blank">docs.openclaw.ai</a></li>
+                                <li>完整的 API 参考</li>
+                                <li>高级功能详解</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">🛠️</div>
+                            <h4>ClawHub</h4>
+                            <ul>
+                                <li><a href="https://clawhub.com" target="_blank">clawhub.com</a></li>
+                                <li>1715+ 社区技能</li>
+                                <li>发布你的技能</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">💬</div>
+                            <h4>社区</h4>
+                            <ul>
+                                <li>Discord 服务器</li>
+                                <li>GitHub Discussions</li>
+                                <li>Reddit r/openclaw</li>
+                            </ul>
+                        </div>
+                        <div class="usecase-card">
+                            <div class="usecase-icon">📰</div>
+                            <h4>Newsletter</h4>
+                            <ul>
+                                <li><a href="https://openclaw.substack.com" target="_blank">OpenClaw Weekly</a></li>
+                                <li>最新教程</li>
+                                <li>社区动态</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>实战项目建议</h3>
+                    
+                    <ol>
+                        <li><strong>个人知识库助手</strong> - 整合你的笔记、文档，打造专属知识助手</li>
+                        <li><strong>自动化工作流</strong> - 自动化日常任务，如邮件处理、日程管理</li>
+                        <li><strong>代码助手</strong> - 定制化的编程辅助，符合你的编码风格</li>
+                        <li><strong>智能家居中枢</strong> - 集成 Home Assistant，语音控制家电</li>
+                        <li><strong>数据分析助手</strong> - 自动化报表生成、数据可视化</li>
+                    </ol>
+
+                    <div class="next-day-preview">
+                        <h3>🚀 下一步行动</h3>
+                        
+                        <p>现在是时候开始构建你自己的 AI 助手了！</p>
+                        
+                        <ol>
+                            <li>回顾并完善你的 MEMORY.md 和 AGENTS.md</li>
+                            <li>探索 ClawHub，安装适合你的技能</li>
+                            <li>开发你的第一个自定义技能</li>
+                            <li>加入社区，分享你的经验</li>
+                        </ol>
+
+                        <a href="../index.html" class="btn btn-primary btn-lg">
+                            返回首页
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Navigation Footer -->
+                <footer class="day-footer">
+                    <div class="day-nav-footer">
+                        <a href="day6.html" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                            上一章：技能开发
+                        </a>
+                        <a href="../index.html" class="btn btn-primary">
+                            完成学习 🎉
+                        </a>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.section-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy to clipboard
+        function copyToClipboard(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '✓';
+                btn.style.color = 'var(--accent-success)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

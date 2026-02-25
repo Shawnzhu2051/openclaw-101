@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线体验 - OpenClaw 101</title>
+    <meta name="description" content="在线体验 OpenClaw 的强大能力，探索 AI 助理的无限可能">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Playground Specific Styles */
+        .playground-page {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+        
+        .playground-hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .playground-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .playground-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .playground-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .playground-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+        
+        .playground-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--accent-warning);
+        }
+        
+        .playground-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-warning);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Demo Chat Section */
+        .demo-section {
+            padding: 60px 0;
+        }
+        
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .demo-chat-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .demo-chat-header {
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .demo-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .demo-chat-info h3 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        .demo-chat-info p {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+        
+        .demo-chat-status {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-success);
+        }
+        
+        .demo-chat-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-success);
+            border-radius: 50%;
+        }
+        
+        .demo-chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .demo-message {
+            display: flex;
+            gap: 12px;
+            max-width: 85%;
+        }
+        
+        .demo-message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+        
+        .demo-message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        
+        .demo-message.user .demo-message-avatar {
+            background: var(--accent-primary);
+        }
+        
+        .demo-message-content {
+            background: var(--bg-tertiary);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .demo-message.user .demo-message-content {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .demo-message-time {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+        
+        .demo-chat-input {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .demo-chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        
+        .demo-chat-input input::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        .demo-send-btn {
+            padding: 12px 20px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .demo-send-btn:hover {
+            background: var(--accent-primary-light);
+        }
+        
+        /* Capabilities Section */
+        .capabilities-section {
+            padding: 40px 0;
+        }
+        
+        .capabilities-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .capability-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .capability-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .capability-card:hover,
+        .capability-card.active {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+        }
+        
+        .capability-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .capability-card.active .capability-icon {
+            background: var(--accent-primary);
+        }
+        
+        .capability-content h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .capability-content p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Features Grid */
+        .playground-features {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .playground-features .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .features-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .feature-showcase-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition-normal);
+        }
+        
+        .feature-showcase-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-primary);
+        }
+        
+        .feature-showcase-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+        
+        .feature-showcase-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+        
+        .feature-showcase-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* Interactive Demo Section */
+        .interactive-demo {
+            padding: 80px 0;
+        }
+        
+        .demo-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+        
+        .demo-tab {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .demo-tab:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+        
+        .demo-tab.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        
+        .demo-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        
+        .demo-panel {
+            display: none;
+        }
+        
+        .demo-panel.active {
+            display: block;
+        }
+        
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: var(--accent-secondary);
+        }
+        
+        /* CTA Section */
+        .playground-cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            text-align: center;
+        }
+        
+        .playground-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        
+        .playground-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .playground-cta .btn {
+            margin: 0 8px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .playground-hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .demo-chat-messages {
+                height: 300px;
+            }
+            
+            .features-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .playground-cta .btn {
+                display: block;
+                margin: 8px auto;
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#features" class="nav-link">功能特性</a>
+                <a href="index.html#learning-path" class="nav-link">7天学习</a>
+                <a href="skills-browser.html" class="nav-link">技能市场</a>
+                <a href="index.html#resources" class="nav-link">资源库</a>
+                <a href="playground.html" class="nav-link active">在线体验</a>
+                <a href="https://github.com/Shawnzhu2051/openclaw-101" target="_blank" class="nav-link github-link">
+                    <svg height="18" viewBox="0 0 16 16" width="18"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    <span>GitHub</span>
+                </a>
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+                    <!-- Icon will be set by theme.js -->
+                </button>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="playground-page">
+        <!-- Hero Section -->
+        <section class="playground-hero">
+            <div class="container">
+                <span class="playground-badge">概念演示</span>
+                <h1>🚀 在线体验 OpenClaw</h1>
+                <p>探索 OpenClaw 的强大能力，体验 AI 助理如何改变你的工作方式。这是一个交互式概念演示。</p>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-container">
+                    <!-- Chat Demo -->
+                    <div class="demo-chat-wrapper">
+                        <div class="demo-chat-header">
+                            <div class="demo-avatar">🦞</div>
+                            <div class="demo-chat-info">
+                                <h3>OpenClaw Assistant</h3>
+                                <p>AI 私人助理</p>
+                            </div>
+                            <div class="demo-chat-status">在线</div>
+                        </div>
+                        <div class="demo-chat-messages" id="chatMessages">
+                            <!-- Messages will be populated by JS -->
+                        </div>
+                        <div class="demo-chat-input">
+                            <input type="text" id="chatInput" placeholder="输入消息体验演示..." maxlength="100">
+                            <button class="demo-send-btn" id="sendBtn">发送</button>
+                        </div>
+                    </div>
+
+                    <!-- Capabilities -->
+                    <div class="capabilities-section">
+                        <h2>✨ 体验能力</h2>
+                        <div class="capability-cards" id="capabilityCards">
+                            <!-- Cards will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Showcase -->
+        <section class="playground-features">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">核心能力</span>
+                    <h2 class="section-title">OpenClaw 能为你做什么</h2>
+                </div>
+                <div class="features-showcase">
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">💻</div>
+                        <h3>代码助手</h3>
+                        <p>编写、审查、重构代码，支持多种编程语言和框架</p>
+                    </div>
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">🔍</div>
+                        <h3>智能搜索</h3>
+                        <p>实时搜索网络信息，总结关键内容，节省你的时间</p>
+                    </div>
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">📊</div>
+                        <h3>数据分析</h3>
+                        <p>处理 CSV、Excel 文件，生成图表和洞察报告</p>
+                    </div>
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">🌐</div>
+                        <h3>浏览器控制</h3>
+                        <p>自动化网页操作，填写表单，抓取数据</p>
+                    </div>
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">📝</div>
+                        <h3>内容创作</h3>
+                        <p>撰写文章、邮件、社交媒体内容，翻译文档</p>
+                    </div>
+                    <div class="feature-showcase-card">
+                        <div class="feature-showcase-icon">⚡</div>
+                        <h3>任务自动化</h3>
+                        <p>创建自定义工作流，连接各种工具和服务</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo -->
+        <section class="interactive-demo">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">交互演示</span>
+                    <h2 class="section-title">技能开发示例</h2>
+                </div>
+                <div class="demo-tabs" id="demoTabs">
+                    <button class="demo-tab active" data-tab="skill">SKILL.md</button>
+                    <button class="demo-tab" data-tab="agent">AGENTS.md</button>
+                    <button class="demo-tab" data-tab="memory">MEMORY.md</button>
+                    <button class="demo-tab" data-tab="api">API 调用</button>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-panel active" id="skill-panel">
+                        <h3>自定义技能定义</h3>
+                        <p>通过简单的 Markdown 文件定义新技能，OpenClaw 会自动解析并执行。</p>
+                        <div class="code-block">
+                            <pre>---
+name: weather
+ description: 获取指定城市的天气信息
+ parameters:
+   city:
+     type: string
+     description: 城市名称
+     required: true
+---
+
+## 天气查询技能
+
+使用这个技能获取实时天气信息。
+
+### 示例
+
+```
+@weather 北京
+@weather 上海
+```
+
+### 实现
+
+调用 OpenWeatherMap API 获取天气数据。</pre>
+                        </div>
+                    </div>
+                    <div class="demo-panel" id="agent-panel">
+                        <h3>Agent 配置</h3>
+                        <p>定义你的 AI 助理的人格、能力和工作方式。</p>
+                        <div class="code-block">
+                            <pre># AGENTS.md
+
+## 角色定义
+
+你是一个专业的编程助手，擅长：
+- Python、JavaScript、TypeScript
+- 代码审查和重构
+- 技术文档编写
+
+## 工作模式
+
+- 先思考，后回答
+- 提供代码时包含注释
+- 主动询问澄清需求
+
+## 限制
+
+- 不执行可能危害系统的命令
+- 不访问敏感文件</pre>
+                        </div>
+                    </div>
+                    <div class="demo-panel" id="memory-panel">
+                        <h3>记忆系统</h3>
+                        <p>配置长期记忆，让 AI 记住你的偏好和重要信息。</p>
+                        <div class="code-block">
+                            <pre># MEMORY.md
+
+## 用户偏好
+
+- 编程风格：简洁、函数式
+- 喜欢的编辑器：VS Code
+- 常用技术栈：React + Node.js
+
+## 重要日期
+
+- 项目截止日期：2026-03-15
+- 团队会议：每周一上午 10:00
+
+## 学习记录
+
+- 正在学习：Rust 编程
+- 已掌握：Python、Go、Kubernetes</pre>
+                        </div>
+                    </div>
+                    <div class="demo-panel" id="api-panel">
+                        <h3>API 集成示例</h3>
+                        <p>OpenClaw 可以通过工具调用与外部 API 交互。</p>
+                        <div class="code-block">
+                            <pre>// tools/web_search.js
+
+export const web_search = {
+  name: 'web_search',
+  description: '搜索网络信息',
+  parameters: {
+    query: {
+      type: 'string',
+      description: '搜索关键词'
+    }
+  },
+  async execute({ query }) {
+    const response = await fetch(
+      `https://api.search.com?q=${encodeURIComponent(query)}`
+    );
+    return await response.json();
+  }
+};</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="playground-cta">
+            <div class="container">
+                <h2>准备好开始了吗？</h2>
+                <p>部署你自己的 OpenClaw 实例，解锁全部功能</p>
+                <a href="index.html#learning-path" class="btn btn-primary btn-lg">开始学习</a>
+                <a href="https://github.com/openclaw/openclaw" target="_blank" class="btn btn-secondary btn-lg">查看源码</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 OpenClaw 101. 本站与 OpenClaw 官方无关，仅为社区学习资源聚合。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-message"></span>
+    </div>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <script src="theme.js"></script>
+    <script src="playground.js"></script>
+</body>
+</html>
