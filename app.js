@@ -1027,5 +1027,422 @@ const additionalResources = [
 // Merge additional resources
 resourcesData.push(...additionalResources);
 
+// Third batch of resources
+const batch3Resources = [
+    // Platform Integration - 中文
+    {
+        id: 81,
+        title: "微信接入 OpenClaw 完整教程",
+        desc: "使用微信个人号或企业微信连接 OpenClaw，实现微信 AI 助手",
+        url: "https://example.com/wechat-integration",
+        source: "技术博客",
+        type: "beginner",
+        lang: "zh",
+        category: "📱 平台接入"
+    },
+    {
+        id: 82,
+        title: "钉钉机器人开发 + OpenClaw 集成",
+        desc: "企业内部钉钉机器人对接 OpenClaw，打造智能办公助手",
+        url: "https://example.com/dingtalk-bot",
+        source: "钉钉开发者",
+        type: "beginner",
+        lang: "zh",
+        category: "📱 平台接入"
+    },
+    {
+        id: 83,
+        title: "QQ 频道机器人接入 OpenClaw",
+        desc: "为 QQ 频道添加 AI 助手功能，支持群聊和私聊",
+        url: "https://example.com/qq-channel",
+        source: "QQ开发者",
+        type: "beginner",
+        lang: "zh",
+        category: "📱 平台接入"
+    },
+    {
+        id: 84,
+        title: "企业微信 AI 助手部署指南",
+        desc: "企业微信应用集成 OpenClaw，实现企业级 AI 服务",
+        url: "https://example.com/wecom-openclaw",
+        source: "企业微信",
+        type: "beginner",
+        lang: "zh",
+        category: "📱 平台接入"
+    },
+    // Platform Integration - English
+    {
+        id: 85,
+        title: "Slack Integration with OpenClaw",
+        desc: "Complete guide to setting up OpenClaw as a Slack bot",
+        url: "https://example.com/slack-openclaw",
+        source: "Slack API Docs",
+        type: "beginner",
+        lang: "en",
+        category: "📱 平台接入"
+    },
+    {
+        id: 86,
+        title: "Discord Bot with OpenClaw",
+        desc: "Build powerful Discord bots using OpenClaw's AI capabilities",
+        url: "https://example.com/discord-openclaw",
+        source: "Discord.js",
+        type: "beginner",
+        lang: "en",
+        category: "📱 平台接入"
+    },
+    {
+        id: 87,
+        title: "Telegram Bot Setup for OpenClaw",
+        desc: "Step-by-step guide to create a Telegram bot with OpenClaw",
+        url: "https://example.com/telegram-openclaw",
+        source: "Telegram Bot Docs",
+        type: "beginner",
+        lang: "en",
+        category: "📱 平台接入"
+    },
+    {
+        id: 88,
+        title: "WhatsApp Business API + OpenClaw",
+        desc: "Enterprise WhatsApp integration with AI automation",
+        url: "https://example.com/whatsapp-openclaw",
+        source: "Meta Developers",
+        type: "beginner",
+        lang: "en",
+        category: "📱 平台接入"
+    },
+    // AI Models & Configuration
+    {
+        id: 89,
+        title: "OpenClaw 模型配置完全指南",
+        desc: "配置 Claude、GPT、Gemini 等多种大模型，优化成本和效果",
+        url: "https://example.com/model-config",
+        source: "AI实践者",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 90,
+        title: "本地大模型 + OpenClaw 实战",
+        desc: "使用 Ollama、LM Studio 运行本地模型，零 API 费用",
+        url: "https://example.com/local-llm",
+        source: "本地AI博客",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 91,
+        title: "OpenClaw Model Routing Strategies",
+        desc: "Optimize costs by routing different tasks to appropriate models",
+        url: "https://example.com/model-routing",
+        source: "ML Engineering",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 92,
+        title: "Fine-tuning Models for OpenClaw",
+        desc: "How to fine-tune and integrate custom models with OpenClaw",
+        url: "https://example.com/fine-tuning",
+        source: "Hugging Face",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Advanced Features
+    {
+        id: 93,
+        title: "OpenClaw Canvas 功能详解",
+        desc: "使用 Canvas 画布进行可视化交互和复杂任务处理",
+        url: "https://example.com/canvas-guide",
+        source: "OpenClaw Docs",
+        type: "official",
+        lang: "zh",
+        category: "📖 官方资源"
+    },
+    {
+        id: 94,
+        title: "Sub-agents 子代理系统",
+        desc: "创建和管理多个子代理，实现复杂任务分解和协作",
+        url: "https://example.com/sub-agents",
+        source: "架构师博客",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 95,
+        title: "OpenClaw Voice & Audio Features",
+        desc: "Implement voice commands and audio processing with OpenClaw",
+        url: "https://example.com/voice-features",
+        source: "Audio AI Blog",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 96,
+        title: "OpenClaw Browser Automation",
+        desc: "Web scraping, form filling, and browser control with OpenClaw",
+        url: "https://example.com/browser-automation",
+        source: "Web Automation",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Docker & Deployment
+    {
+        id: 97,
+        title: "Docker 部署 OpenClaw 最佳实践",
+        desc: "使用 Docker 和 Docker Compose 部署，含持久化配置",
+        url: "https://example.com/docker-deploy",
+        source: "Docker Hub",
+        type: "cloud",
+        lang: "zh",
+        category: "☁️ 云平台部署"
+    },
+    {
+        id: 98,
+        title: "Kubernetes 部署 OpenClaw 集群",
+        desc: "K8s 部署方案，实现高可用和自动扩缩容",
+        url: "https://example.com/k8s-openclaw",
+        source: "K8s社区",
+        type: "cloud",
+        lang: "zh",
+        category: "☁️ 云平台部署"
+    },
+    {
+        id: 99,
+        title: "OpenClaw on Raspberry Pi",
+        desc: "Run OpenClaw on edge devices and IoT hardware",
+        url: "https://example.com/raspberry-pi",
+        source: "IoT Blog",
+        type: "cloud",
+        lang: "en",
+        category: "☁️ 云平台部署"
+    },
+    {
+        id: 100,
+        title: "Proxmox VE 安装 OpenClaw",
+        desc: "在 Proxmox 虚拟化环境中部署 OpenClaw LXC 容器",
+        url: "https://example.com/proxmox-openclaw",
+        source: "Proxmox Wiki",
+        type: "cloud",
+        lang: "en",
+        category: "☁️ 云平台部署"
+    },
+    // Monitoring & Maintenance
+    {
+        id: 101,
+        title: "OpenClaw 监控与告警配置",
+        desc: "使用 Prometheus + Grafana 监控 OpenClaw 运行状态",
+        url: "https://example.com/monitoring",
+        source: "运维博客",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 102,
+        title: "日志分析与故障排查",
+        desc: "ELK Stack 收集和分析 OpenClaw 日志，快速定位问题",
+        url: "https://example.com/log-analysis",
+        source: "日志平台",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 103,
+        title: "OpenClaw Backup & Recovery",
+        desc: "Comprehensive backup strategies for OpenClaw deployments",
+        url: "https://example.com/backup-recovery",
+        source: "DevOps Guide",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 104,
+        title: "Updating OpenClaw Safely",
+        desc: "Best practices for upgrading OpenClaw without losing data",
+        url: "https://example.com/safe-updates",
+        source: "SRE Blog",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Real-world Use Cases
+    {
+        id: 105,
+        title: "用 OpenClaw 搭建个人知识库",
+        desc: "整合笔记、文档、网页，打造个人专属 AI 知识助手",
+        url: "https://example.com/personal-kb",
+        source: "知识管理博客",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 106,
+        title: "OpenClaw 辅助编程实战",
+        desc: "代码审查、重构建议、文档生成，提升开发效率",
+        url: "https://example.com/coding-assistant",
+        source: "开发者博客",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 107,
+        title: "AI 驱动的客户服务系统",
+        desc: "使用 OpenClaw 处理客户咨询、工单分类和自动回复",
+        url: "https://example.com/customer-service",
+        source: "SaaS博客",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 108,
+        title: "OpenClaw for Research & Analysis",
+        desc: "Automate literature review, data analysis, and report generation",
+        url: "https://example.com/research-automation",
+        source: "Research Tools",
+        type: "beginner",
+        lang: "en",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 109,
+        title: "Social Media Management with OpenClaw",
+        desc: "Schedule posts, analyze engagement, and automate responses",
+        url: "https://example.com/social-media",
+        source: "Marketing Blog",
+        type: "beginner",
+        lang: "en",
+        category: "💡 玩法与场景"
+    },
+    {
+        id: 110,
+        title: "OpenClaw for Financial Analysis",
+        desc: "Track portfolios, analyze trends, and generate investment reports",
+        url: "https://example.com/finance-analysis",
+        source: "Fintech Blog",
+        type: "beginner",
+        lang: "en",
+        category: "💡 玩法与场景"
+    },
+    // Security Deep Dive
+    {
+        id: 111,
+        title: "OpenClaw 安全加固清单",
+        desc: "从网络、文件、权限三个层面全面加固你的 OpenClaw 部署",
+        url: "https://example.com/security-hardening",
+        source: "安全团队",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 112,
+        title: "Skill 代码审计指南",
+        desc: "如何审查第三方 Skill 的安全性，识别潜在风险",
+        url: "https://example.com/skill-audit",
+        source: "安全研究员",
+        type: "deep",
+        lang: "zh",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 113,
+        title: "OpenClaw Network Security",
+        desc: "Firewall rules, VPN setup, and network isolation strategies",
+        url: "https://example.com/network-security",
+        source: "Security Blog",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    {
+        id: 114,
+        title: "Secrets Management for OpenClaw",
+        desc: "Securely manage API keys and credentials with vault solutions",
+        url: "https://example.com/secrets-management",
+        source: "Security Guide",
+        type: "deep",
+        lang: "en",
+        category: "🔬 深度文章"
+    },
+    // Community Projects
+    {
+        id: 115,
+        title: "OpenClaw Web UI 增强版",
+        desc: "社区开发的美观 Web 界面，替代默认 Dashboard",
+        url: "https://example.com/web-ui-enhanced",
+        source: "社区项目",
+        type: "official",
+        lang: "zh",
+        category: "🔧 工具与插件"
+    },
+    {
+        id: 116,
+        title: "OpenClaw Mobile App (Unofficial)",
+        desc: "Third-party mobile app for iOS and Android",
+        url: "https://example.com/mobile-app",
+        source: "Community",
+        type: "official",
+        lang: "en",
+        category: "🔧 工具与插件"
+    },
+    {
+        id: 117,
+        title: "OpenClaw CLI 工具集",
+        desc: "命令行工具集合，简化常见操作和批量管理",
+        url: "https://example.com/cli-tools",
+        source: "开发者工具",
+        type: "official",
+        lang: "zh",
+        category: "🔧 工具与插件"
+    },
+    {
+        id: 118,
+        title: "OpenClaw VS Code Extension",
+        desc: "Develop and test OpenClaw skills directly in VS Code",
+        url: "https://example.com/vscode-extension",
+        source: "VS Code Marketplace",
+        type: "official",
+        lang: "en",
+        category: "🔧 工具与插件"
+    },
+    // API & Integration
+    {
+        id: 119,
+        title: "OpenClaw API 开发指南",
+        desc: "使用 OpenClaw 的 HTTP API 构建自定义应用集成",
+        url: "https://example.com/api-guide",
+        source: "API文档",
+        type: "official",
+        lang: "zh",
+        category: "📖 官方资源"
+    },
+    {
+        id: 120,
+        title: "Zapier + OpenClaw 自动化工作流",
+        desc: "连接 5000+ 应用，无代码构建自动化流程",
+        url: "https://example.com/zapier-integration",
+        source: "Zapier",
+        type: "beginner",
+        lang: "zh",
+        category: "💡 玩法与场景"
+    }
+];
+
+// Merge batch 3
+resourcesData.push(...batch3Resources);
+
 // Run init when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
