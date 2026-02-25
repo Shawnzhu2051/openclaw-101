@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习路线图 - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .roadmap-container {
+            padding: 120px 0 60px;
+        }
+        
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .roadmap-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .roadmap-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .roadmap-path {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            transform: translateX(-50%);
+        }
+        
+        .roadmap-stage {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .roadmap-stage:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .stage-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--bg-card);
+            border: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 1;
+        }
+        
+        .stage-content {
+            width: 45%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+        }
+        
+        .roadmap-stage:nth-child(odd) .stage-content {
+            margin-right: auto;
+        }
+        
+        .roadmap-stage:nth-child(even) .stage-content {
+            margin-left: auto;
+        }
+        
+        .stage-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--accent-primary-light);
+            margin-bottom: 12px;
+        }
+        
+        .stage-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+        
+        .stage-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        
+        .stage-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .stage-topics span {
+            padding: 4px 10px;
+            background: var(--bg-tertiary);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .stage-resources {
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+        
+        .stage-resources h4 {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+        }
+        
+        .stage-resources a {
+            display: block;
+            color: var(--accent-primary-light);
+            font-size: 0.85rem;
+            padding: 4px 0;
+        }
+        
+        .stage-resources a:hover {
+            text-decoration: underline;
+        }
+        
+        .progress-tracker {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            width: 200px;
+        }
+        
+        .progress-tracker h4 {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        
+        .progress-item:hover {
+            color: var(--text-primary);
+        }
+        
+        .progress-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        
+        .progress-item.completed .progress-checkbox {
+            background: var(--accent-success);
+            border-color: var(--accent-success);
+            color: white;
+        }
+        
+        .progress-item.completed {
+            color: var(--text-tertiary);
+            text-decoration: line-through;
+        }
+        
+        @media (max-width: 1024px) {
+            .progress-tracker {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .roadmap-line {
+                left: 20px;
+            }
+            
+            .roadmap-stage,
+            .roadmap-stage:nth-child(even) {
+                flex-direction: column;
+                padding-left: 60px;
+            }
+            
+            .stage-marker {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+            
+            .stage-content,
+            .roadmap-stage:nth-child(odd) .stage-content,
+            .roadmap-stage:nth-child(even) .stage-content {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="index.html#learning-path" class="nav-link">7天学习</a>
+                <a href="skills-browser.html" class="nav-link">技能浏览器</a>
+                <a href="roadmap.html" class="nav-link active">路线图</a>
+                <a href="cheatsheet.html" class="nav-link">速查表</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="roadmap-container container">
+        <div class="roadmap-header">
+            <span class="section-badge">学习路径</span>
+            <h1>OpenClaw 学习路线图</h1>
+            <p>从入门到精通，循序渐进掌握 OpenClaw</p>
+        </div>
+
+        <div class="roadmap-path">
+            <div class="roadmap-line"></div>
+
+            <!-- Stage 1 -->
+            <div class="roadmap-stage" data-stage="1">
+                <div class="stage-marker">1</div>
+                <div class="stage-content">
+                    <span class="stage-badge">入门阶段</span>
+                    <h3>初识 OpenClaw</h3>
+                    <p>了解 OpenClaw 的核心概念、架构设计和适用场景</p>
+                    <div class="stage-topics">
+                        <span>AI Agent 概念</span>
+                        <span>架构概览</span>
+                        <span>适用场景</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day1.html">📖 Day 1: 初识 OpenClaw →</a>
+                        <a href="index.html#resources">📚 官方文档</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="roadmap-stage" data-stage="2">
+                <div class="stage-marker">2</div>
+                <div class="stage-content">
+                    <span class="stage-badge">入门阶段</span>
+                    <h3>环境搭建</h3>
+                    <p>在本地或云端部署 OpenClaw，完成首次运行</p>
+                    <div class="stage-topics">
+                        <span>系统要求</span>
+                        <span>安装部署</span>
+                        <span>初始化配置</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day2.html">📖 Day 2: 环境搭建 →</a>
+                        <a href="#">☁️ 云平台部署指南</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="roadmap-stage" data-stage="3">
+                <div class="stage-marker">3</div>
+                <div class="stage-content">
+                    <span class="stage-badge">入门阶段</span>
+                    <h3>平台接入</h3>
+                    <p>将 OpenClaw 接入常用通讯平台，实现多渠道访问</p>
+                    <div class="stage-topics">
+                        <span>Telegram</span>
+                        <span>飞书</span>
+                        <span>钉钉</span>
+                        <span>Discord</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day3.html">📖 Day 3: 平台接入 →</a>
+                        <a href="#">📱 平台配置合集</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="roadmap-stage" data-stage="4">
+                <div class="stage-marker">4</div>
+                <div class="stage-content">
+                    <span class="stage-badge">进阶阶段</span>
+                    <h3>技能探索</h3>
+                    <p>浏览 ClawHub，安装和配置实用技能</p>
+                    <div class="stage-topics">
+                        <span>ClawHub 使用</span>
+                        <span>技能安装</span>
+                        <span>权限管理</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day4.html">📖 Day 4: 技能探索 →</a>
+                        <a href="skills-browser.html">🔍 技能浏览器 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5 -->
+            <div class="roadmap-stage" data-stage="5">
+                <div class="stage-marker">5</div>
+                <div class="stage-content">
+                    <span class="stage-badge">进阶阶段</span>
+                    <h3>记忆与个性化</h3>
+                    <p>配置记忆系统，让 AI 记住你的偏好</p>
+                    <div class="stage-topics">
+                        <span>MEMORY.md</span>
+                        <span>AGENTS.md</span>
+                        <span>人格配置</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day5.html">📖 Day 5: 记忆与个性化 →</a>
+                        <a href="#">🧠 记忆系统详解</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 6 -->
+            <div class="roadmap-stage" data-stage="6">
+                <div class="stage-marker">6</div>
+                <div class="stage-content">
+                    <span class="stage-badge">高级阶段</span>
+                    <h3>技能开发</h3>
+                    <p>开发自定义技能，扩展 OpenClaw 能力</p>
+                    <div class="stage-topics">
+                        <span>SKILL.md</span>
+                        <span>工具开发</span>
+                        <span>API 集成</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day6.html">📖 Day 6: 技能开发 →</a>
+                        <a href="#">🛠️ 技能开发文档</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 7 -->
+            <div class="roadmap-stage" data-stage="7">
+                <div class="stage-marker">7</div>
+                <div class="stage-content">
+                    <span class="stage-badge">专家阶段</span>
+                    <h3>进阶与生产</h3>
+                    <p>多 Agent 编排、安全加固、生产部署</p>
+                    <div class="stage-topics">
+                        <span>多 Agent</span>
+                        <span>安全加固</span>
+                        <span>监控告警</span>
+                    </div>
+                    <div class="stage-resources">
+                        <h4>推荐资源</h4>
+                        <a href="learning/day7.html">📖 Day 7: 进阶与生产 →</a>
+                        <a href="#">🔒 安全加固指南</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <h4>学习进度</h4>
+        <div class="progress-item" data-stage="1">
+            <div class="progress-checkbox"></div>
+            <span>初识 OpenClaw</span>
+        </div>
+        <div class="progress-item" data-stage="2">
+            <div class="progress-checkbox"></div>
+            <span>环境搭建</span>
+        </div>
+        <div class="progress-item" data-stage="3">
+            <div class="progress-checkbox"></div>
+            <span>平台接入</span>
+        </div>
+        <div class="progress-item" data-stage="4">
+            <div class="progress-checkbox"></div>
+            <span>技能探索</span>
+        </div>
+        <div class="progress-item" data-stage="5">
+            <div class="progress-checkbox"></div>
+            <span>记忆与个性化</span>
+        </div>
+        <div class="progress-item" data-stage="6">
+            <div class="progress-checkbox"></div>
+            <span>技能开发</span>
+        </div>
+        <div class="progress-item" data-stage="7">
+            <div class="progress-checkbox"></div>
+            <span>进阶与生产</span>
+        </div>
+    </div>
+
+    <script>
+        // Load progress from localStorage
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('openclaw-roadmap-progress') || '[]');
+            progress.forEach(stage => {
+                const item = document.querySelector(`.progress-item[data-stage="${stage}"]`);
+                if (item) item.classList.add('completed');
+            });
+        }
+
+        // Save progress to localStorage
+        function saveProgress(stage) {
+            let progress = JSON.parse(localStorage.getItem('openclaw-roadmap-progress') || '[]');
+            if (!progress.includes(stage)) {
+                progress.push(stage);
+                localStorage.setItem('openclaw-roadmap-progress', JSON.stringify(progress));
+            }
+        }
+
+        // Toggle progress on click
+        document.querySelectorAll('.progress-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const stage = parseInt(item.dataset.stage);
+                item.classList.toggle('completed');
+                
+                if (item.classList.contains('completed')) {
+                    saveProgress(stage);
+                } else {
+                    let progress = JSON.parse(localStorage.getItem('openclaw-roadmap-progress') || '[]');
+                    progress = progress.filter(s => s !== stage);
+                    localStorage.setItem('openclaw-roadmap-progress', JSON.stringify(progress));
+                }
+            });
+        });
+
+        // Load progress on page load
+        loadProgress();
+    </script>
+</body>
+</html>

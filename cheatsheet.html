@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>速查表 - OpenClaw 101</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cheatsheet-container {
+            padding: 120px 0 60px;
+        }
+        
+        .cheatsheet-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .cheatsheet-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .cheatsheet-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .print-btn {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            padding: 12px 24px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 100;
+        }
+        
+        .print-btn:hover {
+            background: var(--accent-primary-light);
+        }
+        
+        .cheatsheet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .cheatsheet-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            break-inside: avoid;
+        }
+        
+        .cheatsheet-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+        
+        .cheat-item {
+            margin-bottom: 16px;
+        }
+        
+        .cheat-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .cheat-label {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+        }
+        
+        .cheat-code {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.85rem;
+            color: var(--accent-secondary);
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .cheat-code .copy-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .cheat-code:hover .copy-btn {
+            opacity: 1;
+        }
+        
+        .cheat-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+        
+        .config-template {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            white-space: pre;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .keyword { color: var(--accent-pink); }
+        .string { color: var(--accent-success); }
+        .comment { color: var(--text-tertiary); }
+        
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        .shortcut-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .shortcut-table td:first-child {
+            font-family: 'SF Mono', Monaco, monospace;
+            color: var(--accent-secondary);
+            width: 40%;
+        }
+        
+        .shortcut-table td:last-child {
+            color: var(--text-secondary);
+        }
+        
+        @media print {
+            .navbar, .print-btn {
+                display: none;
+            }
+            
+            .cheatsheet-container {
+                padding: 20px;
+            }
+            
+            .cheatsheet-section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cheatsheet-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .print-btn {
+                position: static;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="logo">🦞</span>
+                    <span class="brand-text">OpenClaw 101</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="roadmap.html" class="nav-link">路线图</a>
+                <a href="skills-browser.html" class="nav-link">技能浏览器</a>
+                <a href="cheatsheet.html" class="nav-link active">速查表</a>
+            </div>
+        </div>
+    </nav>
+
+    <button class="print-btn" onclick="window.print()">
+        🖨️ 打印 / 保存 PDF
+    </button>
+
+    <div class="cheatsheet-container container">
+        <div class="cheatsheet-header">
+            <span class="section-badge">快速参考</span>
+            <h1>OpenClaw 速查表</h1>
+            <p>常用命令、配置模板、快捷键一站式查询</p>
+        </div>
+
+        <div class="cheatsheet-grid">
+            <!-- CLI Commands -->
+            <div class="cheatsheet-section">
+                <h2>🖥️ CLI 命令</h2>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">安装 OpenClaw</div>
+                    <div class="cheat-code">
+                        npm install -g openclaw
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">初始化项目</div>
+                    <div class="cheat-code">
+                        openclaw init
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">启动 Gateway</div>
+                    <div class="cheat-code">
+                        openclaw gateway
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">安装技能</div>
+                    <div class="cheat-code">
+                        npx clawhub install &lt;skill-name&gt;
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">查看版本</div>
+                    <div class="cheat-code">
+                        openclaw --version
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">诊断检查</div>
+                    <div class="cheat-code">
+                        openclaw doctor
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Docker Commands -->
+            <div class="cheatsheet-section">
+                <h2>🐳 Docker 命令</h2>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">运行容器</div>
+                    <div class="cheat-code">
+                        docker run -d --name openclaw -p 18789:18789 openclaw/openclaw
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">查看日志</div>
+                    <div class="cheat-code">
+                        docker logs -f openclaw
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">停止容器</div>
+                    <div class="cheat-code">
+                        docker stop openclaw
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">更新镜像</div>
+                    <div class="cheat-code">
+                        docker pull openclaw/openclaw:latest
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AGENTS.md Template -->
+            <div class="cheatsheet-section">
+                <h2>👤 AGENTS.md 模板</h2>
+                <div class="config-template"># AGENTS.md
+
+<span class="comment"># 代理配置</span>
+<span class="keyword">name</span>: <span class="string">"我的AI助手"</span>
+<span class="keyword">description</span>: <span class="string">"一个有帮助的AI助手"</span>
+
+<span class="comment"># 人格设定</span>
+<span class="keyword">personality</span>:
+  <span class="keyword">style</span>: <span class="string">"友好、专业"</span>
+  <span class="keyword">tone</span>: <span class="string">"轻松但专业"</span>
+
+<span class="comment"># 模型配置</span>
+<span class="keyword">model</span>:
+  <span class="keyword">provider</span>: <span class="string">"anthropic"</span>
+  <span class="keyword">name</span>: <span class="string">"claude-3-sonnet"</span>
+                </div>
+            </div>
+
+            <!-- SKILL.md Template -->
+            <div class="cheatsheet-section">
+                <h2>🛠️ SKILL.md 模板</h2>
+                
+                <div class="config-template"># SKILL.md
+
+<span class="keyword">name</span>: <span class="string">"天气查询"</span>
+<span class="keyword">description</span>: <span class="string">"查询指定城市的天气"</span>
+
+<span class="keyword">input_schema</span>:
+  <span class="keyword">city</span>:
+    <span class="keyword">type</span>: <span class="string">"string"</span>
+    <span class="keyword">description</span>: <span class="string">"城市名称"</span>
+
+<span class="keyword">command</span>: |
+  curl -s "api.weather.com/v1/current?city={{city}}"
+                </div>
+            </div>
+
+            <!-- Shortcuts -->
+            <div class="cheatsheet-section">
+                <h2>⌨️ 常用路径</h2>
+                
+                <table class="shortcut-table">
+                    <tr>
+                        <td>~/.openclaw/</td>
+                        <td>配置目录</td>
+                    </tr>
+                    <tr>
+                        <td>~/.openclaw/agents.md</td>
+                        <td>代理配置</td>
+                    </tr>
+                    <tr>
+                        <td>~/.openclaw/memory/</td>
+                        <td>记忆存储</td>
+                    </tr>
+                    <tr>
+                        <td>~/.openclaw/skills/</td>
+                        <td>技能目录</td>
+                    </tr>
+                    <tr>
+                        <td>/var/log/openclaw/</td>
+                        <td>日志文件</td>
+                    </tr>
+                    <tr>
+                        <td>http://localhost:18789</td>
+                        <td>Web Dashboard</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Environment Variables -->
+            <div class="cheatsheet-section">
+                <h2>🔧 环境变量</h2>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">API Key</div>
+                    <div class="cheat-code">
+                        OPENCLAW_API_KEY=sk-...
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">模型提供商</div>
+                    <div class="cheat-code">
+                        OPENCLAW_MODEL_PROVIDER=anthropic
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">日志级别</div>
+                    <div class="cheat-code">
+                        OPENCLAW_LOG_LEVEL=info
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+                
+                <div class="cheat-item">
+                    <div class="cheat-label">端口配置</div>
+                    <div class="cheat-code">
+                        OPENCLAW_PORT=18789
+                        <button class="copy-btn" onclick="copy(this)">📋</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copy(btn) {
+            const code = btn.parentElement.textContent.replace('📋', '').trim();
+            navigator.clipboard.writeText(code);
+            btn.textContent = '✓';
+            setTimeout(() => btn.textContent = '📋', 2000);
+        }
+    </script>
+</body>
+</html>
